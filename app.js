@@ -1,4 +1,4 @@
-const slides = Array.from(document.querySelectorAll('.slide'));
+﻿const slides = Array.from(document.querySelectorAll('.slide'));
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const pageNow = document.getElementById('pageNow');
@@ -6,6 +6,8 @@ const pageTotal = document.getElementById('pageTotal');
 const headerTitle = document.getElementById('headerTitle');
 const slidesContainer = document.getElementById('slidesContainer');
 const headerRuleButtons = document.getElementById('headerRuleButtons');
+const headerPartInfoBtn = document.getElementById('headerPartInfoBtn');
+const headerPartEndBtn = document.getElementById('headerPartEndBtn');
 const rulesModal = document.getElementById('rulesModal');
 const rulesModalTitle = document.getElementById('rulesModalTitle');
 const rulesModalBody = document.getElementById('rulesModalBody');
@@ -14,6 +16,9 @@ const confirmModal = document.getElementById('confirmModal');
 const confirmModalMessage = document.getElementById('confirmModalMessage');
 
 let pendingConfirmAction = null;
+
+const PART1_START_INDEX = 7;
+const PART1_END_INDEX = 18;
 
 const RULE_CONTENT_MAP = {
   'P: 능력과 파워': `
@@ -65,7 +70,7 @@ function openConfirmModal(message, onConfirm) {
     return;
   }
 
-  confirmModalMessage.textContent = message;
+  confirmModalMessage.innerHTML = message;
   pendingConfirmAction = typeof onConfirm === 'function' ? onConfirm : null;
   confirmModal.classList.remove('hidden');
   confirmModal.setAttribute('aria-hidden', 'false');
@@ -87,6 +92,58 @@ function submitConfirmModal() {
   if (typeof action === 'function') {
     action();
   }
+}
+
+function isPart1Slide(index) {
+  return index >= PART1_START_INDEX && index <= PART1_END_INDEX;
+}
+
+function getPart2StartIndex() {
+  const index = slides.findIndex((slide) => slide.dataset.partAnchor === 'part2-start');
+  return index;
+}
+
+function openPart2EnterConfirm() {
+  const message = '<strong class="confirm-primary-line">Part1을 종료</strong>하고<br><span class="confirm-warning-line">Part2 장으로 진입하시겠습니까?</span>';
+  openConfirmModal(message, () => {
+    const part2Index = getPart2StartIndex();
+    if (part2Index >= 0) {
+      renderSlide(part2Index);
+    }
+  });
+}
+
+function extractPartActionTitle(title) {
+  return (title || '').replace(/^\[Part\s*1\]\s*\d+Round:\s*/i, '').trim();
+}
+
+function updateTimerActionLabel(slideEl, partInfoTitle) {
+  if (!slideEl) {
+    return;
+  }
+
+  const timerWidget = slideEl.querySelector('.timer-widget');
+  if (!timerWidget) {
+    return;
+  }
+
+  let labelEl = slideEl.querySelector('.timer-action-label');
+  const actionTitle = extractPartActionTitle(partInfoTitle);
+
+  if (!actionTitle) {
+    if (labelEl) {
+      labelEl.remove();
+    }
+    return;
+  }
+
+  if (!labelEl) {
+    labelEl = document.createElement('p');
+    labelEl.className = 'timer-action-label';
+    slideEl.insertBefore(labelEl, timerWidget);
+  }
+
+  labelEl.textContent = actionTitle;
 }
 function isRulesModalOpen() {
   return Boolean(rulesModal) && !rulesModal.classList.contains('hidden');
@@ -123,7 +180,7 @@ function openRulesModal(topic) {
   }
 
   rulesModalTitle.textContent = topic;
-  rulesModalBody.innerHTML = RULE_CONTENT_MAP[topic] || '<p>��Ģ �ؽ�Ʈ�� ���� ���� ����</p>';
+  rulesModalBody.innerHTML = RULE_CONTENT_MAP[topic] || '<p>규칙 텍스트는 차후 삽입 예정</p>';
   rulesModal.classList.remove('hidden');
   rulesModal.setAttribute('aria-hidden', 'false');
 }
@@ -169,9 +226,25 @@ function setupRulesModal() {
       return;
     }
 
+    const partInfoOpenTarget = event.target.closest('[data-role="part-info-open"]');
+    if (partInfoOpenTarget) {
+      const activeSlide = slides[currentIndex];
+      const partInfoTitle = activeSlide?.dataset.partInfoTitle;
+      const actionTitle = extractPartActionTitle(partInfoTitle);
+      if (actionTitle) {
+        openRulesModal(actionTitle);
+      }
+      return;
+    }
+
+    const partEndOpenTarget = event.target.closest('[data-role="part-end-open"]');
+    if (partEndOpenTarget) {
+      openPart2EnterConfirm();
+      return;
+    }
     const topicButton = event.target.closest('[data-rule-topic]');
     if (topicButton) {
-      const topic = topicButton.dataset.ruleTopic || topicButton.textContent?.trim() || '��Ģ';
+      const topic = topicButton.dataset.ruleTopic || topicButton.textContent?.trim() || '占쏙옙칙';
       openRulesModal(topic);
     }
   });
@@ -528,7 +601,22 @@ function renderSlide(index) {
   currentIndex = index;
   pageNow.textContent = String(index + 1);
 
-  const titleText = slides[index].dataset.title || slides[index].querySelector('h1')?.textContent;
+    const titleText = slides[index].dataset.title || slides[index].querySelector('h1')?.textContent;
+  const partInfoTitle = slides[index].dataset.partInfoTitle || '';
+  updateTimerActionLabel(slides[index], partInfoTitle);
+
+  if (headerPartInfoBtn) {
+    const showPartInfo = Boolean(partInfoTitle);
+    headerPartInfoBtn.classList.toggle('hidden', !showPartInfo);
+    headerPartInfoBtn.setAttribute('aria-hidden', showPartInfo ? 'false' : 'true');
+  }
+  
+
+  if (headerPartEndBtn) {
+    const showPartEndButton = isPart1Slide(index);
+    headerPartEndBtn.classList.toggle('hidden', !showPartEndButton);
+  }
+
   if (headerRuleButtons) {
     headerRuleButtons.style.display = index >= 6 ? 'flex' : 'none';
   }
@@ -560,6 +648,11 @@ function goPrev() {
 }
 
 function goNext() {
+  if (currentIndex === PART1_END_INDEX) {
+    openPart2EnterConfirm();
+    return;
+  }
+
   if (currentIndex < slides.length - 1) {
     renderSlide(currentIndex + 1);
   }
@@ -641,7 +734,6 @@ closeNpcModal();
 closeConfirmModal();
 document.body.classList.remove('modal-open');
 renderSlide(0);
-
 
 
 

@@ -11,14 +11,16 @@
     <div class="slide-frame">
       <header class="top-bar">
         <div class="header-title" id="headerTitle">1장: 게임 흐름 요약</div>
+        <button class="header-info-btn hidden" id="headerPartInfoBtn" type="button" data-role="part-info-open" aria-label="현재 순서 규칙 안내">i</button>
         <div class="header-controls">
+          <button class="header-part-end-btn hidden" id="headerPartEndBtn" type="button" data-role="part-end-open">Part 1 종료</button>
           <div class="header-rule-buttons" id="headerRuleButtons" style="display:none;">
             <button class="rule-access-btn" type="button" data-rule-topic="P: 능력과 파워" data-rule-key="P">P</button>
             <button class="rule-access-btn" type="button" data-rule-topic="S: 승점" data-rule-key="S">S</button>
             <button class="rule-access-btn" type="button" data-rule-topic="R: 전체" data-rule-key="R">R</button>
           </div>
           <div class="page-indicator">
-            <span id="pageNow">1</span> / <span id="pageTotal">7</span>
+            <span id="pageNow">1</span> / <span id="pageTotal">19</span>
           </div>
           <div class="nav-buttons">
             <button id="prevBtn" type="button" aria-label="이전">&lt;</button>
@@ -148,6 +150,201 @@
         <section class="slide" data-index="6" data-title="7장: 자기소개 시간">
           <p>각자 자기소개를 진행해주세요.</p>
         </section>
+        <section class="slide timer-slide" data-index="7" data-title="[Part 1] 1Round: 행선지 상의 및 결정" data-part-info-title="[Part 1] 1Round: 행선지 상의 및 결정">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="180">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">03:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="8" data-title="[Part 1] 1Round: 탐색 및 정보 공유" data-part-info-title="[Part 1] 1Round: 탐색 및 정보 공유">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="600">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">10:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="9" data-title="[Part 1] 1Round: 인물 관찰 및 정보 공유" data-part-info-title="[Part 1] 1Round: 인물 관찰 및 정보 공유">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="360">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">06:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="10" data-title="[Part 1] 1Round: 다음 라운드 리더 지명" data-part-info-title="[Part 1] 1Round: 다음 라운드 리더 지명">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="60">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">01:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="11" data-title="[Part 1] 2Round: 행선지 상의 및 결정" data-part-info-title="[Part 1] 2Round: 행선지 상의 및 결정">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="180">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">03:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="12" data-title="[Part 1] 2Round: 탐색 및 정보 공유" data-part-info-title="[Part 1] 2Round: 탐색 및 정보 공유">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="600">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">10:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="13" data-title="[Part 1] 2Round: 인물 관찰 및 정보 공유" data-part-info-title="[Part 1] 2Round: 인물 관찰 및 정보 공유">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="360">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">06:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="14" data-title="[Part 1] 2Round: 다음 라운드 리더 지명" data-part-info-title="[Part 1] 2Round: 다음 라운드 리더 지명">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="60">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">01:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="15" data-title="[Part 1] 3Round: 행선지 상의 및 결정" data-part-info-title="[Part 1] 3Round: 행선지 상의 및 결정">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="180">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">03:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="16" data-title="[Part 1] 3Round: 탐색 및 정보 공유" data-part-info-title="[Part 1] 3Round: 탐색 및 정보 공유">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="600">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">10:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="17" data-title="[Part 1] 3Round: 인물 관찰 및 정보 공유" data-part-info-title="[Part 1] 3Round: 인물 관찰 및 정보 공유">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="360">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">06:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="18" data-title="[Part 1] 3Round: 다음 라운드 리더 지명" data-part-info-title="[Part 1] 3Round: 다음 라운드 리더 지명">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="60">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">01:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="19" data-title="Part 2" data-part-anchor="part2-start">
+          <div class="placeholder-box">Part 2 페이지 (내용 추가 예정)</div>
+        </section>
       </main>
     </div>
   </div>
@@ -158,7 +355,7 @@
     <div class="confirm-modal-backdrop" data-role="confirm-cancel"></div>
     <div class="confirm-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
       <div class="confirm-modal-body">
-        <p class="flow-warning" id="confirmModalMessage">확인 메시지</p>
+        <div class="confirm-message" id="confirmModalMessage">확인 메시지</div>
       </div>
       <div class="confirm-modal-actions">
         <button class="confirm-ok-btn" type="button" data-role="confirm-ok">확인</button>

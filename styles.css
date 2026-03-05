@@ -71,6 +71,24 @@ body {
   gap: 6px;
 }
 
+.header-info-btn {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 999px;
+  background: #111111;
+  color: #ffffff;
+  padding: 0;
+  font-size: 0.88rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.header-info-btn:hover {
+  background: #000000;
+}
+
 .page-indicator {
   min-width: 54px;
   text-align: center;
@@ -506,17 +524,16 @@ button:disabled {
     font-size: 0.95rem;
   }
 
-  .header-controls {
-    gap: 6px;
-  }
+  
 
-  .rule-access-btn {
-    min-width: 28px;
+  .header-info-btn {
     width: 28px;
-    font-size: 0.72rem;
-    padding: 5px 0;
+    height: 28px;
+    min-width: 28px;
+    font-size: 0.82rem;
   }
 
+  
   .slide {
     padding: 18px;
   }
@@ -871,4 +888,70 @@ button:disabled {
 
 .confirm-cancel-btn:hover {
   background: #f4f4f4;
+}
+
+
+
+
+
+
+
+.header-part-end-btn {
+  background: #111111;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.header-part-end-btn:hover {
+  background: #000000;
+}
+
+.timer-slide.active {
+  justify-content: center;
+}
+
+.timer-widget {
+  margin: 0 auto;
+}
+
+.timer-slide.active .flow-warning {
+  margin-top: 16px;
+}
+
+.confirm-message {
+  text-align: center;
+  line-height: 1.6;
+}
+
+.confirm-primary-line {
+  font-weight: 800;
+  color: #111111;
+}
+
+.confirm-warning-line {
+  display: inline-block;
+  margin-top: 4px;
+  color: #c21717;
+  font-weight: 800;
+}
+
+.timer-slide.active {
+  justify-content: center;
+  gap: 12px;
+}
+
+.timer-action-label {
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
+  font-size: clamp(1.1rem, 2.1vw, 1.45rem);
+  color: #1b1f24;
+}
+
+.timer-widget {
+  margin: 0;
 }
