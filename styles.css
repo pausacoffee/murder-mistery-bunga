@@ -572,3 +572,135 @@ button:disabled {
 }
 
 
+
+.character-slide.active {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.character-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  align-items: center;
+  align-content: center;
+}
+
+.character-card {
+  border: 2px solid #c9d4e7;
+  border-radius: 14px;
+  background: #f9fbff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 0;
+  align-self: center;
+  overflow: hidden;
+  transition: box-shadow 220ms ease, z-index 220ms ease;
+  position: relative;
+}
+
+.character-card:hover {
+  box-shadow: 0 12px 26px rgba(27, 41, 68, 0.24);
+  z-index: 4;
+}
+
+.character-name {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.character-illustration {
+  height: 280px;
+  border: 1px dashed #b7c4db;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: #76839a;
+  background: #f5f8ff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: height 240ms ease;
+}
+
+.card-collector {
+  border-color: #3f3f46;
+}
+.card-collector .character-name {
+  color: #3f3f46;
+}
+
+.card-medium {
+  border-color: #5b3b7a;
+}
+.card-medium .character-name {
+  color: #5b3b7a;
+}
+
+.card-psychiatrist {
+  border-color: #9a7b1f;
+}
+.card-psychiatrist .character-name {
+  color: #9a7b1f;
+}
+
+.card-son {
+  border-color: #7a1f26;
+}
+.card-son .character-name {
+  color: #7a1f26;
+}
+
+.card-architect {
+  border-color: #2f5a3b;
+}
+.card-architect .character-name {
+  color: #2f5a3b;
+}
+
+.card-reporter {
+  border-color: #5b7496;
+}
+.card-reporter .character-name {
+  color: #5b7496;
+}
+
+.character-slide .flow-note {
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .character-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+
+  .character-name {
+    font-size: 0.86rem;
+  }
+
+  .character-illustration {
+    height: 180px;
+    font-size: 0.8rem;
+  }
+}
+
+.character-card:hover .character-illustration {
+  height: 360px;
+}
+
+
+
+
+
