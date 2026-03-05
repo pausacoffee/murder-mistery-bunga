@@ -1,4 +1,4 @@
-﻿const slides = Array.from(document.querySelectorAll('.slide'));
+const slides = Array.from(document.querySelectorAll('.slide'));
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 const pageNow = document.getElementById('pageNow');
@@ -9,6 +9,11 @@ const headerRuleButtons = document.getElementById('headerRuleButtons');
 const rulesModal = document.getElementById('rulesModal');
 const rulesModalTitle = document.getElementById('rulesModalTitle');
 const rulesModalBody = document.getElementById('rulesModalBody');
+const npcModal = document.getElementById('npcModal');
+const confirmModal = document.getElementById('confirmModal');
+const confirmModalMessage = document.getElementById('confirmModalMessage');
+
+let pendingConfirmAction = null;
 
 const RULE_CONTENT_MAP = {
   'P: 능력과 파워': `
@@ -48,17 +53,77 @@ const RULE_CONTENT_MAP = {
   `,
 };
 
+function isConfirmModalOpen() {
+  return Boolean(confirmModal) && !confirmModal.classList.contains('hidden');
+}
+
+function openConfirmModal(message, onConfirm) {
+  if (!confirmModal || !confirmModalMessage) {
+    if (typeof onConfirm === 'function') {
+      onConfirm();
+    }
+    return;
+  }
+
+  confirmModalMessage.textContent = message;
+  pendingConfirmAction = typeof onConfirm === 'function' ? onConfirm : null;
+  confirmModal.classList.remove('hidden');
+  confirmModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeConfirmModal() {
+  if (!confirmModal) {
+    return;
+  }
+
+  confirmModal.classList.add('hidden');
+  confirmModal.setAttribute('aria-hidden', 'true');
+  pendingConfirmAction = null;
+}
+
+function submitConfirmModal() {
+  const action = pendingConfirmAction;
+  closeConfirmModal();
+  if (typeof action === 'function') {
+    action();
+  }
+}
 function isRulesModalOpen() {
   return Boolean(rulesModal) && !rulesModal.classList.contains('hidden');
 }
 
+function isNpcModalOpen() {
+  return Boolean(npcModal) && !npcModal.classList.contains('hidden');
+}
+
+function isAnyModalOpen() {
+  return isRulesModalOpen() || isNpcModalOpen() || isConfirmModalOpen();
+}
+
+function openNpcModal() {
+  if (!npcModal) {
+    return;
+  }
+
+  npcModal.classList.remove('hidden');
+  npcModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeNpcModal() {
+  if (!npcModal) {
+    return;
+  }
+
+  npcModal.classList.add('hidden');
+  npcModal.setAttribute('aria-hidden', 'true');
+}
 function openRulesModal(topic) {
   if (!rulesModal || !rulesModalTitle || !rulesModalBody) {
     return;
   }
 
   rulesModalTitle.textContent = topic;
-  rulesModalBody.innerHTML = RULE_CONTENT_MAP[topic] || '<p>규칙 텍스트는 차후 삽입 예정</p>';
+  rulesModalBody.innerHTML = RULE_CONTENT_MAP[topic] || '<p>��Ģ �ؽ�Ʈ�� ���� ���� ����</p>';
   rulesModal.classList.remove('hidden');
   rulesModal.setAttribute('aria-hidden', 'false');
 }
@@ -74,15 +139,39 @@ function closeRulesModal() {
 
 function setupRulesModal() {
   document.addEventListener('click', (event) => {
-    const closeTarget = event.target.closest('[data-role="rules-modal-close"]');
-    if (closeTarget) {
+    const rulesCloseTarget = event.target.closest('[data-role="rules-modal-close"]');
+    if (rulesCloseTarget) {
       closeRulesModal();
+      return;
+    }
+
+    const npcCloseTarget = event.target.closest('[data-role="npc-modal-close"]');
+    if (npcCloseTarget) {
+      closeNpcModal();
+      return;
+    }
+
+    const confirmCancelTarget = event.target.closest('[data-role="confirm-cancel"]');
+    if (confirmCancelTarget) {
+      closeConfirmModal();
+      return;
+    }
+
+    const confirmOkTarget = event.target.closest('[data-role="confirm-ok"]');
+    if (confirmOkTarget) {
+      submitConfirmModal();
+      return;
+    }
+
+    const npcOpenTarget = event.target.closest('[data-role="npc-open"]');
+    if (npcOpenTarget) {
+      openConfirmModal('NPC 캐릭터가 공개됩니다.', () => openNpcModal());
       return;
     }
 
     const topicButton = event.target.closest('[data-rule-topic]');
     if (topicButton) {
-      const topic = topicButton.dataset.ruleTopic || topicButton.textContent?.trim() || '규칙';
+      const topic = topicButton.dataset.ruleTopic || topicButton.textContent?.trim() || '��Ģ';
       openRulesModal(topic);
     }
   });
@@ -480,12 +569,14 @@ prevBtn.addEventListener('click', goPrev);
 nextBtn.addEventListener('click', goNext);
 
 window.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && isRulesModalOpen()) {
+  if (event.key === 'Escape' && isAnyModalOpen()) {
     closeRulesModal();
+    closeNpcModal();
+    closeConfirmModal();
     return;
   }
 
-  if (isRulesModalOpen()) {
+  if (isAnyModalOpen()) {
     return;
   }
   if (event.key === 'ArrowLeft') {
@@ -504,7 +595,7 @@ let touchEndY = 0;
 let touchFromScrollable = false;
 
 slidesContainer.addEventListener('touchstart', (event) => {
-  if (isRulesModalOpen()) {
+  if (isAnyModalOpen()) {
     return;
   }
   const touch = event.changedTouches[0];
@@ -514,7 +605,7 @@ slidesContainer.addEventListener('touchstart', (event) => {
 });
 
 slidesContainer.addEventListener('touchend', (event) => {
-  if (isRulesModalOpen()) {
+  if (isAnyModalOpen()) {
     return;
   }
   if (touchFromScrollable) {
@@ -546,6 +637,8 @@ document.addEventListener('visibilitychange', () => {
 decorateStoryText();
 setupRulesModal();
 closeRulesModal();
+closeNpcModal();
+closeConfirmModal();
 document.body.classList.remove('modal-open');
 renderSlide(0);
 
