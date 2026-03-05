@@ -17,8 +17,8 @@ const confirmModalMessage = document.getElementById('confirmModalMessage');
 
 let pendingConfirmAction = null;
 
-const PART1_START_INDEX = 7;
-const PART1_END_INDEX = 18;
+const PART1_START_INDEX = 8;
+const PART1_END_INDEX = 19;
 
 const RULE_CONTENT_MAP = {
   'P: 능력과 파워': `
@@ -751,6 +751,7 @@ closeNpcModal();
 closeConfirmModal();
 document.body.classList.remove('modal-open');
 renderSlide(0);
+
 
 
 
