@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[머미] 분가 GM</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="slide-frame">
+      <header class="top-bar">
+        <div class="header-title" id="headerTitle">1장: 게임 흐름 요약</div>
+        <div class="header-controls">
+          <div class="header-rule-buttons" id="headerRuleButtons" style="display:none;">
+            <button class="rule-access-btn" type="button" data-rule-topic="P: 능력과 파워" data-rule-key="P">P</button>
+            <button class="rule-access-btn" type="button" data-rule-topic="S: 승점" data-rule-key="S">S</button>
+            <button class="rule-access-btn" type="button" data-rule-topic="R: 전체" data-rule-key="R">R</button>
+          </div>
+          <div class="page-indicator">
+            <span id="pageNow">1</span> / <span id="pageTotal">7</span>
+          </div>
+          <div class="nav-buttons">
+            <button id="prevBtn" type="button" aria-label="이전">&lt;</button>
+            <button id="nextBtn" type="button" aria-label="다음">&gt;</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="slides-container" id="slidesContainer">
+        <section class="slide active" data-index="0" data-title="1장: 게임 흐름 요약">
+          <div class="diagram">
+            <div class="node">준비, 캐릭터 선택, 설정서 숙지</div>
+            <div class="arrow">→</div>
+            <div class="node">파트 1<br />(3 라운드)</div>
+            <div class="arrow">→</div>
+            <div class="node">파트 2<br />(4 라운드)</div>
+            <div class="arrow">→</div>
+            <div class="node">파트 3<br />(추리, 투표)</div>
+            <div class="arrow">→</div>
+            <div class="node">엔딩</div>
+          </div>
+          <p class="flow-warning">그 파트로 진행하라는 지시가 있기 전까지, 규칙서와 설정서의 다음 파트의 내용을 읽어서는 안됩니다.</p>
+        </section>
+
+        <section class="slide" data-index="1" data-title="2장: 게임 준비">
+          <ul class="content-list">
+            <li>저택 지도, 파트 1 카드, 캐릭터 설정서를 꺼내주세요.</li>
+            <li>저택 1F 면을 앞면으로 펼쳐 주세요.</li>
+            <li>파트 1 카드 - 정보: 캐릭터 이름 를 캐릭터별로 더미를 만들어 배치해주세요.</li>
+            <li>이야기 카드 A, 캐릭터별 파워 0 카드를 배치해주세요.</li>
+          </ul>
+          <div class="placeholder-box">참고 이미지 첨부 예정</div>
+        </section>
+
+                <section class="slide story-slide" data-index="2" data-title="3장: 스토리">
+          <div class="scrollable-text">
+            <p>무대는 현대 미국 동북부, 뉴잉글랜드의 한 지방 도시다.</p>
+            <p>언덕 위에 저택이 세워졌을 때만 해도, 사람들은 그저 돈 많은 부자의 사치쯤으로 여겼다.</p>
+            <p>이 지역의 거부 그렉 모리스가 지은 저택에는, 요즘엔 보기 드물 만큼 막대한 돈이 들어갔다. 시대의 분위기를 살린 건축 양식과 값비싼 가구들, 냉난방과 Wi-Fi 같은 현대식 설비까지 빠짐없이 갖춰져 있었다.</p>
+            <p>하지만 저택이 완성되자마자, 그곳에는 어두운 소문이 따라붙기 시작했다. 공사에 참여했던 사람들이 이유도 모른 채 죽거나 실종됐고, 저택 주변에서는 설명하기 어려운 기이한 일들이 잇따랐다.</p>
+            <p>아름다운 신축 저택은 순식간에 '유령 저택'으로 불리게 됐다. 게다가 완공 후 얼마 지나지 않아, 저택의 주인 그렉 모리스와 그의 아내마저 저택 안에 틀어박힌 채 사람들 앞에 모습을 드러내지 않았다.</p>
+            <p>그리고 그날 밤, 당신들은 저마다의 사정으로 그 저택을 찾았다.</p>
+            <br></br>
+            <p>[수집가]는 그렉의 친구다. 오컬트에 관심이 많아 관련 물건을 모아 온 그는, 저택 완공 기념 모임이 있다며 그렉에게 초대를 받았다.</p>
+            <p>[영매 소녀]는 거리에서 제법 이름난 점술가다. [수집가]가 그녀를 눈여겨보다가, 그렉도 흥미를 가질 거라 생각해 동행을 권했다.</p>
+            <p>[정신과의]는 그렉의 아내 주디의 상담의다. 연락이 끊긴 그녀를 걱정하던 중, 그렉에게서 초대를 받았다.</p>
+            <p>[저택 주인 아들]은 3년 전 가출했다. 큰소리치며 집을 나갔던 그가 이제 돌아온 이유는, 솔직히 말해 돈 때문인 듯하다.</p>
+            <p>[건축가]는 시내 건축사무소에서 일한다. 저택에 대해 전문가 의견을 듣고 싶다는 그렉의 요청으로 초대받았다.</p>
+            <p>[신문 기자]는 지역 신문사 소속이다. 그렉에게 인터뷰를 요청했고, 흔쾌히 저택으로 오라는 답을 받았다.</p>
+            <br></br>
+            <p>[수집가], [정신과의], [저택 주인 아들], [건축가]가 저택에 도착했을 때, 초인종을 눌러도 아무도 나오지 않았다. 하인조차 마중을 나오지 않는 게 이상했다. 그때 저택 안에서 여자의 비명이 들렸고, 그들은 곧장 안으로 뛰어들었다.</p>
+            <p>그리고 응접실에서, 저택의 주인 그렉 모리스의 시체를 발견했다.</p>
+            <p>그 시체는 기묘했다. 응접실에는 복고풍 레코드에서 베토벤의 「운명」이 요란하게 울려 퍼지고 있었고, 그렉은 왕좌를 연상시키는 거대한 기계 의자에 결박된 채 숨져 있었다. 의자에서 튀어나온 쇠말뚝이 그의 심장을 꿰뚫고 있었다.</p>
+            <p>응접실 문 앞에서 비명을 지르던 사람은 [신문 기자]였다. 실내에는 창백한 얼굴로 시신 곁에 서 있는 [영매 소녀]의 모습도 보였다.</p>
+            <p>시체의 발치에는 원고지처럼 보이는 종이뭉치가 흩어져 있었다. 피에 젖은 종이 위에는 이렇게 적혀 있었다.</p>
+            <p>「내 저택에 온 것을 환영하네.」</p>
+            <p>「이 저택에 갇혔다는 건 이미 눈치챘겠지? 그대들은 내 저택의 진가를 체험하도록 선택된 자들일세. 자, 피와 공포를 바치고 있는 힘껏 발버둥 쳐 보게!」</p>
+            <p>이건 누가 봐도 데스 게임이었다.</p>
+            <p>그렉은 주최자인 척하다가, 어리석게도 스스로 함정에 빠진 걸까? 어쨌든 사망자가 나온 이상 경찰에 신고해야 했다. 그러나 곧 누군가가 외쳤다.</p>
+            <p>「전화가 안 돼요!」</p>
+            <p>그렇다면 차를 타고 시내로 내려가는 수밖에 없었다. 하지만 현관문은 언제부터인지 굳게 잠겨 있었고, 창문마다 철창이 설치돼 있었다.</p>
+            <p>대체 이 저택은 뭐란 말인가.</p>
+            <p>어떻게든 탈출해야 했다. 그나마 다행인 건, 그렉의 시신에서 저택 내부 문을 열 수 있는 열쇠 꾸러미가 발견됐다는 점이었다.</p>
+            <p>그렇게 당신들은 서로를 경계하면서도, 협력해 저택에서 빠져나가기로 한다. 하지만 저택에 어떤 함정이 숨어 있는지 알 수 없다. 게다가 그렉의 죽음이 사고가 아니라 타살이라면......?</p>
+            <p>길고도 공포스러운 밤이, 이제 막 시작되려 하고 있었다.</p>
+          </div>
+        </section>
+
+        <section class="slide" data-index="3" data-title="4장: 캐릭터 소개 페이지">
+          <div class="placeholder-box">캐릭터 이미지 첨부 예정</div>
+          <p class="flow-note">5인 플레이인 경우, "NPC 결정 카드" "NPC 규칙 : 1" "NPC 규칙 : 2" 를 꺼내 확인합니다.</p>
+        </section>
+
+        <section class="slide timer-slide" data-index="4" data-title="5장: 캐릭터 설정서 숙지 시간">
+          <div class="timer-widget" data-timer-widget data-initial-seconds="900">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+
+                <div class="timer-display" data-role="display">15:00</div>
+
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+          <p class="flow-warning">중간에 있는 "다은 문장은 파트 2가 될때까지 보아서는 안됩니다." 라는 문장 다음 부분은 읽지마세요</p>
+        </section>
+
+        <section class="slide rules-slide" data-index="5" data-title="6장: 규칙">
+          <div class="rules-actions">
+            <button class="rule-topic-btn" type="button" data-rule-topic="P: 능력과 파워" data-rule-key="P">P: 능력과 파워</button>
+            <button class="rule-topic-btn" type="button" data-rule-topic="S: 승점" data-rule-key="S">S: 승점</button>
+            <button class="rule-topic-btn" type="button" data-rule-topic="R: 전체" data-rule-key="R">R: 전체</button>
+          </div>
+        </section>
+
+        <section class="slide" data-index="6" data-title="7장: 자기소개 시간">
+          <p>각자 자기소개를 진행해주세요.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="rules-modal hidden" id="rulesModal" aria-hidden="true">
+    <div class="rules-modal-backdrop" data-role="rules-modal-close"></div>
+    <div class="rules-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="rulesModalTitle">
+      <div class="rules-modal-header">
+        <h2 class="rules-modal-title" id="rulesModalTitle">규칙</h2>
+        <button class="rules-close-btn" type="button" data-role="rules-modal-close" aria-label="팝업 닫기">닫기</button>
+      </div>
+      <div class="rules-modal-body" id="rulesModalBody">
+        <p>규칙 텍스트는 차후 삽입 예정</p>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
