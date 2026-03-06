@@ -152,6 +152,65 @@ const RULE_CONTENT_MAP = {
       </div>
     </div>
   `,
+  '전체 회의 (10분)': `
+    <div class="part-rule-preview">
+      <p class="rule-lead"><strong>전체 회의 (10분)</strong></p>
+      <div class="rule-block">
+        <p>모든 플레이어가 자유롭게 의견을 교환합니다.</p>
+        <p>카드 공개나 카드 양도는 <strong>이 타이밍까지</strong> 가능합니다. 이 이후에는 손에 든 카드를 다른 캐릭터에게 넘길 수 없습니다.</p>
+      </div>
+    </div>
+  `,
+  '추리 페이즈 (각 플레이어당 1분)': `
+    <div class="part-rule-preview">
+      <p class="rule-lead"><strong>추리 페이즈 (각 플레이어당 1분)</strong></p>
+      <div class="rule-block">
+        <p>현재 리더부터 시계 방향으로, 각자 1분씩 자신의 추리를 발표합니다.</p>
+        <p>그렉의 죽음이 사고인지 살인인지, 살인이라면 누가 가장 의심스러운지, 사제로 누가 적합한지 등을 자유롭게 말해 주세요.</p>
+      </div>
+    </div>
+  `,
+  '투표': `
+    <div class="part-rule-preview">
+      <p class="rule-lead"><strong>투표</strong></p>
+
+      <div class="rule-block">
+        <p>모두가 「둘셋!」 구호에 맞춰 그렉의 죽음 원인을 가리킵니다.</p>
+        <ul>
+          <li>사고 또는 자살이라고 판단하면 <strong>위를 가리킵니다.</strong></li>
+          <li>주디가 범인이라고 판단하면 <strong>게임 상자</strong>를 가리킵니다.</li>
+          <li>5인 플레이에서 NPC가 범인이라고 판단하면 <strong>설정서</strong>를 가리킵니다.</li>
+        </ul>
+      </div>
+
+      <div class="rule-block rule-callout-box">
+        <h4>동수 처리</h4>
+        <p>동수일 경우 최다 득표자끼리 결선 투표를 진행합니다.</p>
+        <p>그래도 결정되지 않으면 <strong>아무도 구속되지 않은 것</strong>으로 처리합니다.</p>
+      </div>
+    </div>
+  `,
+  '사제 선발': `
+    <div class="part-rule-preview">
+      <p class="rule-lead"><strong>사제 선발</strong></p>
+
+      <div class="rule-block">
+        <p>의식을 치를 「사제」 1명을 선택합니다.</p>
+        <p>「3: 투표」에서 구속된 인물이 있다면, 그 인물을 제외한 나머지 플레이어 가운데서 투표합니다. 구속된 캐릭터는 투표권도 없습니다.</p>
+        <p>5인 플레이에서는 NPC를 사제로 선택할 수 없습니다.</p>
+      </div>
+
+      <div class="rule-block">
+        <p>이때도 「둘셋!」 구호에 맞춰 사제에 적합한 캐릭터에게 투표합니다.</p>
+      </div>
+
+      <div class="rule-block rule-callout-box">
+        <h4>동수 처리</h4>
+        <p>동수일 경우 최다 득표자끼리 결선 투표를 진행합니다.</p>
+        <p>그래도 결정되지 않으면 <strong>사제는 없는 것</strong>으로 처리합니다.</p>
+      </div>
+    </div>
+  `,
   '행선지 상의 및 결정(3분)': `
     <div class="part-rule-preview">
       <p class="rule-lead">맵을 보며 이번 라운드의 행선지를 상의합니다. 기본 흐름은 파트 1과 같습니다.</p>
