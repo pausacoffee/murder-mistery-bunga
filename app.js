@@ -103,6 +103,55 @@ const RULE_CONTENT_MAP = {
       </div>
     </div>
   `,
+  '인물 관찰 및 정보 공유': `
+    <div class="part-rule-preview">
+
+      <div class="rule-block">
+        <h4>기본 진행</h4>
+        <p>사정은 각자 다르지만, 모든 캐릭터는 특정 인물에 주목해 관찰을 진행합니다.</p>
+        <p>각자 <strong>캐릭터 정보 카드 1장</strong>을 선택해 손패에 추가합니다. 단, <strong>자신의 정보 카드</strong>는 획득할 수 없습니다. (자신의 정보는 설정서에 기재되어 있습니다.)</p>
+      </div>
+
+      <div class="rule-block">
+        <h4>획득 충돌 시</h4>
+        <p>카드 획득은 동시에 진행되지만, 남은 카드가 1장뿐인데 동일 카드를 원하는 인원이 겹치면, 해당 라운드의 <strong>리더</strong>가 최종 획득자를 결정합니다.</p>
+      </div>
+
+      <div class="rule-block">
+        <h4>정보 교환과 해석 주의</h4>
+        <p>카드 획득 후에는 자유롭게 정보를 교환합니다. 다만 인물 관찰로 얻는 것은 <strong>정보</strong>라는 점에 유의해 주세요.</p>
+        <p>예를 들어 정보 카드에 「알 없는 안경」이라고 적혀 있어도, 그것은 해당 사실을 알게 되는 것이지 아이템을 실제로 획득한 것은 아닙니다.</p>
+      </div>
+
+      <div class="rule-block">
+        <h4>밀담 운영</h4>
+        <p>이 페이즈 동안 특정 인원과 별도 밀담을 원하면, 손을 들어 신호한 뒤 자리를 벗어나 대화해도 됩니다. 인원 제한은 없습니다.</p>
+        <p>단, 밀담 그룹이 여러 개로 갈릴 때는 누군가 한 명만 고립되지 않도록 조정해 주세요.</p>
+      </div>
+    </div>
+  `,
+  '다음 라운드 리더 지명': `
+    <div class="part-rule-preview">
+      <p class="rule-lead"><strong>다음 라운드 리더 지명</strong></p>
+
+      <div class="rule-block">
+        <h4>기본 원칙</h4>
+        <p>현재 리더는 다음 라운드의 리더가 될 캐릭터를 지명합니다.</p>
+        <p>지명 순서는 <strong>아직 리더를 맡지 않은 플레이어</strong>를 우선합니다.</p>
+      </div>
+
+      <div class="rule-block">
+        <h4>시간 내 미결정 시</h4>
+        <p>시간 안에 합의하지 못했다면, 현재 리더 기준 시계 방향으로 돌아가며 아직 리더를 맡지 않은 플레이어가 다음 리더가 됩니다.</p>
+      </div>
+
+      <div class="rule-block rule-callout-box">
+        <h4>파트 1 종료 안내</h4>
+        <p>파트 1에서 위 흐름을 <strong>3라운드 반복</strong>하면 이야기 카드 A가 공개됩니다.</p>
+        <p>다만 다른 조건으로 이야기 카드 A가 공개되는 경우도 있습니다.</p>
+      </div>
+    </div>
+  `,
   '행선지 상의 및 결정(3분)': `
     <div class="part-rule-preview">
       <p class="rule-lead">맵을 보며 이번 라운드의 행선지를 상의합니다. 기본 흐름은 파트 1과 같습니다.</p>
@@ -149,6 +198,11 @@ const RULE_CONTENT_MAP = {
       <div class="rule-block">
         <h4>한 바퀴 이후</h4>
         <p>모든 캐릭터가 한 번씩 리더를 맡았다면, 이후에는 이전에 리더를 맡았던 캐릭터도 다시 선택할 수 있습니다.</p>
+      </div>
+      <div class="rule-block rule-callout-box">
+        <h4>파트 2 종료 안내</h4>
+        <p>파트 2에서 위 흐름을 <strong>4라운드 반복</strong>하면 이야기 카드 B가 공개됩니다.</p>
+        <p>다만 다른 조건으로 이야기 카드 B가 공개되는 경우도 있습니다.</p>
       </div>
     </div>
   `,

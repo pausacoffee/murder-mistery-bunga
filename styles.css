@@ -295,12 +295,13 @@ button:disabled {
 }
 
 .chapter21-dialogue {
-  margin: 6px 0 14px;
-  padding: 12px 14px;
-  border-left: 4px solid #7a889f;
-  border-radius: 8px;
-  background: #eff3f8;
+  font-family: "Nanum Myeongjo", "Batang", serif;
   font-weight: 700;
+  letter-spacing: 0.2px;
+  background: #f4f6fa;
+  border-left: 3px solid #9aa7be;
+  border-radius: 6px;
+  padding: 10px 12px;
 }
 
 .chapter21-final-line {
@@ -1365,4 +1366,9 @@ button:disabled {
   display: inline-block;
   margin-top: 2px;
   line-height: 1.5;
+}
+
+.rule-callout-box {
+  border-left: 5px solid #7a1f26;
+  background: #fbf2f2;
 }
