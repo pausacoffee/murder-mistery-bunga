@@ -14,11 +14,15 @@
         <button class="header-info-btn hidden" id="headerPartInfoBtn" type="button" data-role="part-info-open" aria-label="현재 순서 규칙 안내">i</button>
         <div class="header-controls">
           <button class="header-part-end-btn hidden" id="headerPartEndBtn" type="button" data-role="part-end-open">Part 1 종료</button>
-          <div class="header-rule-buttons" id="headerRuleButtons" style="display:none;">
-            <button class="rule-access-btn" type="button" data-rule-topic="P: 능력과 파워" data-rule-key="P">P</button>
-            <button class="rule-access-btn" type="button" data-rule-topic="S: 승점" data-rule-key="S">S</button>
-            <button class="rule-access-btn" type="button" data-rule-topic="R: 전체" data-rule-key="R">R</button>
-          </div>
+          <button class="rules-book-btn" id="headerRulesBookBtn" type="button" data-role="rules-book-open" style="display:none;" aria-label="규칙 열기">
+            <svg class="rules-book-icon" viewBox="0 0 64 48" aria-hidden="true" focusable="false">
+              <path d="M3.5 34.5L10.5 11.5c7 2 14 0 21.5 5.8 7.5-5.8 14.5-3.8 21.5-5.8l7 23c-10.5-2-19.6-.7-28.5 6-8.9-6.7-18-8-28.5-6Z" />
+              <path d="M32 17v23" />
+              <path d="M8 30c9-2 17-.7 24 6" />
+              <path d="M56 30c-9-2-17-.7-24 6" />
+            </svg>
+            <span class="sr-only">규칙</span>
+          </button>
           <div class="page-indicator">
             <span id="pageNow">1</span> / <span id="pageTotal">20</span>
           </div>
@@ -140,10 +144,15 @@
         </section>
 
         <section class="slide rules-slide" data-index="5" data-title="6장: 규칙">
-          <div class="rules-actions">
-            <button class="rule-topic-btn" type="button" data-rule-topic="P: 능력과 파워" data-rule-key="P">P: 능력과 파워</button>
-            <button class="rule-topic-btn" type="button" data-rule-topic="S: 승점" data-rule-key="S">S: 승점</button>
-            <button class="rule-topic-btn" type="button" data-rule-topic="R: 전체" data-rule-key="R">R: 전체</button>
+          <div class="rules-inline">
+            <div class="rules-inline-tabs" role="tablist" aria-label="규칙 탭">
+              <button class="rules-inline-tab active" type="button" role="tab" aria-selected="true" data-role="inline-rule-tab" data-rule-key="P">능력과 파워</button>
+              <button class="rules-inline-tab" type="button" role="tab" aria-selected="false" data-role="inline-rule-tab" data-rule-key="S">승점</button>
+              <button class="rules-inline-tab" type="button" role="tab" aria-selected="false" data-role="inline-rule-tab" data-rule-key="R">전체</button>
+            </div>
+            <div class="rules-inline-panel scrollable-text" id="rulesInlineBody" aria-live="polite">
+              <p>규칙 텍스트를 불러오는 중입니다.</p>
+            </div>
           </div>
         </section>
 
@@ -358,8 +367,75 @@
           </div>
         </section>
 
-        <section class="slide" data-index="20" data-title="Part 2" data-part-anchor="part2-start">
-          <div class="placeholder-box">Part 2 페이지 (내용 추가 예정)</div>
+        <section class="slide chapter21-slide" data-index="20" data-title="[Part2] 스토리" data-part-anchor="part2-start">
+          <div class="chapter21-wrap">
+            <div class="chapter21-body scrollable-text">
+              <p>마침내 당신들은 「태양의 열쇠」와 「달의 열쇠」를 찾아냈고, 굳게 닫혀 있던 2층으로 향하는 문을 열었다. 탐색 방식에 따라 시간이 꽤 걸렸을지도 모른다.</p>
+              <p>계단을 올라 2층에 발을 들인 순간, 저택은 예상보다 훨씬 더 음산하게 느껴졌다. 어디선가 누군가가 지켜보는 듯한 악의 어린 시선이 등줄기를 훑고, 어둠은 한층 더 짙어져 있었다.</p>
+              <p>계단실에 도착하자마자 정면에는 두 개의 문이 보였다. 그제야 모두는 아주 단순한 사실을 깨달았다. <strong>이 앞에서 무슨 일이 벌어질지는 아무도 모른다.</strong></p>
+              <p class="chapter21-dialogue">"어쩌지?"</p>
+              <p class="chapter21-dialogue">"잠깐 돌아가서 아래층을 더 조사할까……."</p>
+              <p class="chapter21-dialogue">"조금 더 준비하고 가는 게 낫지 않을까."</p>
+              <p>누군가가 나지막이 약한 말을 꺼낸 바로 그때였다. 쿵, 하고 저택 전체를 뒤흔드는 충격이 울렸다. 땅울림인지, 무언가의 포효인지 분간할 수 없는 소리가 공기를 떨게 했다.</p>
+              <p>이어서 철커덩 하는 금속음과 함께, 계단과 계단실의 경계로 철제 셔터가 내려왔다. 퇴로가 끊겼다.</p>
+              <p class="chapter21-final-line">여기까지 온 이상, 더 나아갈 수밖에 없다. 어떤 문을 선택할지, 누구와 함께 움직일지. 그 선택이 거대한 운명의 갈림길이 된다.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide chapter22-slide" data-index="21" data-title="[Part2] 준비">
+          <div class="chapter22-wrap">
+            <div class="chapter22-body scrollable-text">
+              <h3 class="chapter22-heading">맵 및 카드 준비</h3>
+              <ul class="chapter22-list">
+                <li>펼쳐 둔 저택 지도를 뒤집어 주세요. 방금까지 사용한 1F 맵 뒷면에는 건물의 골격만 표시된 백지도가 있습니다.</li>
+                <li>파트 1에서 획득하지 못한 「방 카드」와 「캐릭터 정보 카드」는 더 이상 획득할 수 없습니다. 해당 카드는 모두 상자로 되돌려 주세요. (단, 이미 손패에 있는 카드는 되돌리지 않습니다.)</li>
+                <li>「파워 카드」는 파트 2에서도 계속 사용합니다.</li>
+                <li>상자에서 파트 2라고 적힌 더미를 꺼냅니다. 방 카드(파트 2에서는 「서재」, 「아이 방」처럼 방 이름이 적혀 있습니다)는 방별로 더미를 만든 뒤, 맨 위에 방 이름만 적힌 카드를 올려 배치해 주세요.</li>
+                <li>이야기 카드 B를 꺼내 맵 근처에 둡니다.</li>
+                <li>특수 정보 카드 5장을 모든 플레이어가 손쉽게 닿을 수 있는 곳에 놓습니다.</li>
+                <li>지도 카드(A~K 알파벳 카드)는 즉시 사용할 수 있도록 알파벳 면이 보이게 뒤집어 더미로 준비합니다.</li>
+              </ul>
+
+              <h3 class="chapter22-heading">탐색 전 안내</h3>
+              <p>모든 캐릭터의 시작 위치는 계단입니다.</p>
+              <p>1층은 비교적 열린 구조였고, 건물 외관 등을 단서로 구조를 짐작하며 탐색할 수 있었습니다. 하지만 2층은 미지의 영역입니다. 방 구조는 처음부터 알 수 없습니다.</p>
+              <p class="chapter22-note">자세한 내용은 파트 2 진행 순서의 「1: 행선지 상의 및 결정」을 참조해 주세요.</p>
+              <p class="chapter22-final-line">준비가 끝났다면 각자 설정서의 파트 2를 확인합니다. (5분)</p>
+              <div class="chapter22-image-placeholder">이미지 첨부 예정</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide timer-slide" data-index="22" data-title="[Part2] 개인 설정서 파트 2확인">
+          <h3 class="intro-center-title">개인 설정서 파트 2확인</h3>
+          <div class="timer-widget" data-timer-widget data-initial-seconds="300">
+            <div class="timer-panel">
+              <div class="timer-top-row">
+                <button class="timer-adjust-btn" data-role="minus" type="button" aria-label="1분 감소">-1</button>
+                <div class="timer-display" data-role="display">05:00</div>
+                <button class="timer-adjust-btn" data-role="plus" type="button" aria-label="1분 추가">+1</button>
+              </div>
+              <div class="timer-bottom-row">
+                <button class="timer-toggle-btn" data-role="toggle" type="button" aria-pressed="false">시작</button>
+              </div>
+            </div>
+            <div class="timer-end-overlay hidden" data-role="overlay">종료!</div>
+          </div>
+        </section>
+
+        <section class="slide part1-order-slide" data-index="23" data-title="[Part2] 진행 순서">
+          <div class="part1-order-wrap">
+            <h2 class="part1-order-title">[Part2] 진행 순서</h2>
+            <div class="part1-order-flow">
+              <button class="part1-order-btn" type="button" data-rule-topic="행선지 상의 및 결정(3분)">행선지 상의 및 결정 (3분)</button>
+              <div class="part1-order-arrow">↓</div>
+              <button class="part1-order-btn" type="button" data-rule-topic="탐색과 정보 공유(15분)">탐색과 정보 공유 (15분)</button>
+              <div class="part1-order-arrow">↓</div>
+              <button class="part1-order-btn" type="button" data-rule-topic="다음 라운드 리더 지명(1분)">다음 라운드 리더 지명 (1분)</button>
+            </div>
+            <p class="round1-leader-note">총 4 Round 진행</p>
+          </div>
         </section>
       </main>
     </div>
@@ -398,24 +474,19 @@
         <h2 class="rules-modal-title" id="rulesModalTitle">규칙</h2>
         <button class="rules-close-btn" type="button" data-role="rules-modal-close" aria-label="팝업 닫기">닫기</button>
       </div>
-      <div class="rules-modal-body" id="rulesModalBody">
-        <p>규칙 텍스트는 차후 삽입 예정</p>
+      <div class="rules-modal-tabs" id="rulesModalTabs" role="tablist" aria-label="규칙 탭">
+        <button class="rules-modal-tab active" type="button" role="tab" aria-selected="true" data-role="modal-rule-tab" data-rule-key="P">능력과 파워</button>
+        <button class="rules-modal-tab" type="button" role="tab" aria-selected="false" data-role="modal-rule-tab" data-rule-key="S">승점</button>
+        <button class="rules-modal-tab" type="button" role="tab" aria-selected="false" data-role="modal-rule-tab" data-rule-key="R">전체</button>
+      </div>
+      <div class="rules-modal-body" id="rulesModalBody" aria-live="polite">
+        <p>규칙 내용을 불러오는 중입니다.</p>
       </div>
     </div>
   </div>
   <script src="app.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
 
 

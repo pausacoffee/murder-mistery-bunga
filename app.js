@@ -5,20 +5,30 @@ const pageNow = document.getElementById('pageNow');
 const pageTotal = document.getElementById('pageTotal');
 const headerTitle = document.getElementById('headerTitle');
 const slidesContainer = document.getElementById('slidesContainer');
-const headerRuleButtons = document.getElementById('headerRuleButtons');
+const headerRulesBookBtn = document.getElementById('headerRulesBookBtn');
 const headerPartInfoBtn = document.getElementById('headerPartInfoBtn');
 const headerPartEndBtn = document.getElementById('headerPartEndBtn');
 const rulesModal = document.getElementById('rulesModal');
 const rulesModalTitle = document.getElementById('rulesModalTitle');
 const rulesModalBody = document.getElementById('rulesModalBody');
+const rulesModalTabs = document.getElementById('rulesModalTabs');
+const rulesInlineBody = document.getElementById('rulesInlineBody');
+const inlineRuleTabs = Array.from(document.querySelectorAll('[data-role="inline-rule-tab"]'));
+const modalRuleTabs = Array.from(document.querySelectorAll('[data-role="modal-rule-tab"]'));
 const npcModal = document.getElementById('npcModal');
 const confirmModal = document.getElementById('confirmModal');
 const confirmModalMessage = document.getElementById('confirmModalMessage');
 
 let pendingConfirmAction = null;
+let activeRuleTabKey = 'P';
 
 const PART1_START_INDEX = 8;
 const PART1_END_INDEX = 19;
+const RULE_TAB_TOPIC_MAP = {
+  P: '능력과 파워',
+  S: '승점',
+  R: '전체',
+};
 
 const RULE_CONTENT_MAP = {
   '행선지 상의 및 결정': `
@@ -50,7 +60,56 @@ const RULE_CONTENT_MAP = {
       </div>
     </div>
   `,
-  'P: 능력과 파워': `
+  '행선지 상의 및 결정(3분)': `
+    <div class="part-rule-preview">
+      <p class="rule-lead">맵을 보며 이번 라운드의 행선지를 상의합니다. 기본 흐름은 파트 1과 같습니다.</p>
+
+      <div class="rule-block">
+        <h4>선택 가능한 행선지</h4>
+        <p>다만, 파트 2에서는 처음부터 모든 방을 선택할 수 없습니다. 예를 들어 <strong>파트 2의 1라운드</strong>에서는 <code>A</code> 또는 <code>B</code>가 적힌 문 너머만 조사할 수 있습니다.</p>
+        <p>이후 라운드에서도 <strong>이미 탐색해 공개된 방</strong> 또는 <strong>현재 조사 중인 방과 이어진 문 너머</strong>만 행선지로 선택할 수 있습니다.</p>
+        <p class="rule-note">즉, 라운드가 진행될수록 조사 가능한 장소 선택지가 점차 늘어납니다.</p>
+      </div>
+
+      <div class="rule-block">
+        <h4>리더 결정과 맵 배치</h4>
+        <p>파트 1과 마찬가지로, 각 캐릭터의 최종 행선지는 <strong>리더</strong>가 결정합니다.</p>
+        <p>행선지가 정해졌는데 해당 방 카드가 아직 맵 위에 없다면, 먼저 대응하는 <strong>지도 카드(알파벳 A~K)</strong>를 뒤집어 맵에 배치해 주세요.</p>
+        <p>백지도 위에 카드 도안이 맞물리도록 정렬해서 놓으면, 해당 공간이 어떤 방인지 확인할 수 있습니다.</p>
+      </div>
+    </div>
+  `,
+  '탐색과 정보 공유(15분)': `
+    <div class="part-rule-preview">
+      <p class="rule-lead">기본 절차는 파트 1과 같습니다.</p>
+
+      <div class="rule-block">
+        <h4>탐색 진행</h4>
+        <p>맵을 참고해 해당 방 이름의 방 카드를 가져오고, 카드 내용에 따라 탐색을 진행합니다.</p>
+      </div>
+
+      <div class="rule-block">
+        <h4>탐색 종료 후</h4>
+        <p>탐색이 끝났다면 착석해 주세요. 해당 캐릭터는 <strong>「계단」으로 돌아온 상태</strong>로 취급합니다.</p>
+      </div>
+    </div>
+  `,
+  '다음 라운드 리더 지명(1분)': `
+    <div class="part-rule-preview">
+      <p class="rule-lead">기본 절차는 파트 1과 같습니다.</p>
+
+      <div class="rule-block">
+        <h4>지명 원칙</h4>
+        <p>아직 리더를 맡지 않은 캐릭터를 우선 지명합니다.</p>
+      </div>
+
+      <div class="rule-block">
+        <h4>한 바퀴 이후</h4>
+        <p>모든 캐릭터가 한 번씩 리더를 맡았다면, 이후에는 이전에 리더를 맡았던 캐릭터도 다시 선택할 수 있습니다.</p>
+      </div>
+    </div>
+  `,
+  '능력과 파워': `
     <h3>능력과 파워</h3>
     <p>캐릭터마다 고유한 <strong>능력</strong>이 있습니다. 저택을 탐색하는 과정에서, 해당 능력이 있으면 추가 정보를 얻을 수 있는 경우가 있습니다. 게임 중 카드 등으로 능력 사용이 지정되면, 그 지시에 따라 처리해 주세요.</p>
     <p>또한 각 캐릭터에게는 <strong>파워</strong>라는 능력치가 설정되어 있습니다. 모든 캐릭터의 초기 파워 기본 수치는 <strong>3</strong>입니다.</p>
@@ -62,12 +121,12 @@ const RULE_CONTENT_MAP = {
     <p>⊚ 파워 기본 수치가 <strong>0</strong>이 되면, 캐릭터는 정신 기능 저하 또는 육체적 손상 등의 이유로 쓰러집니다. 즉시 자신의 캐릭터에 해당하는 <strong>파워 0 카드</strong>를 가져와 지시에 따르세요.</p>
     <p>⊚ 이후 획득하는 아이템 카드의 <code>파워 +@</code> 수정은, 파워 기본 수치를 <strong>0에서 초기 상태로 회복시키는 효과가 아닙니다.</strong> (파워 감소를 경감하기 위해 아이템을 버리는 것은 가능하지만, 0에서 초기 상태로 회복되지는 않습니다.) <code>파워 0 카드</code>를 가져온 뒤, 아이템 카드 수정을 적용합니다.</p>
   `,
-  'S: 승점': `
+  '승점': `
     <h3>승점에 대하여</h3>
     <p>캐릭터 설정서에는 각 캐릭터의 <strong>승점 조건</strong>이 기재되어 있습니다. 승점은 <strong>게임 종료 시</strong>, 해당 조건을 만족했을 때 획득하는 점수입니다.</p>
     <p>다만 이 작품의 가장 큰 목적은 <strong>참가자들이 함께 이야기를 만들어 가는 것</strong>입니다. 승패에만 집중하기보다, 이야기 속 인물이 되어 <strong>서사를 즐기며 플레이</strong>하는 것을 권장합니다.</p>
   `,
-  'R: 전체': `
+  '전체': `
     <h3>전체 규칙</h3>
 
     <h3>1. 거짓말에 대하여</h3>
@@ -220,13 +279,64 @@ function closeNpcModal() {
   npcModal.classList.add('hidden');
   npcModal.setAttribute('aria-hidden', 'true');
 }
-function openRulesModal(topic) {
-  if (!rulesModal || !rulesModalTitle || !rulesModalBody) {
+
+function getRuleTopicByKey(ruleKey) {
+  return RULE_TAB_TOPIC_MAP[ruleKey] || '';
+}
+
+function getRuleKeyByTopic(topic) {
+  return Object.keys(RULE_TAB_TOPIC_MAP).find((key) => RULE_TAB_TOPIC_MAP[key] === topic) || '';
+}
+
+function setRuleTabState(buttons, activeKey) {
+  buttons.forEach((button) => {
+    const isActive = button.dataset.ruleKey === activeKey;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+}
+
+function renderInlineRules(ruleKey) {
+  const topic = getRuleTopicByKey(ruleKey);
+  if (!topic || !rulesInlineBody) {
     return;
   }
 
-  rulesModalTitle.textContent = topic;
+  activeRuleTabKey = ruleKey;
+  setRuleTabState(inlineRuleTabs, ruleKey);
+  rulesInlineBody.innerHTML = RULE_CONTENT_MAP[topic] || '<p>규칙 텍스트는 차후 삽입 예정</p>';
+}
+
+function renderRulesModalRuleTab(ruleKey) {
+  const topic = getRuleTopicByKey(ruleKey);
+  if (!topic || !rulesModalBody || !rulesModalTitle) {
+    return;
+  }
+
+  activeRuleTabKey = ruleKey;
+  rulesModalTitle.textContent = '규칙';
   rulesModalBody.innerHTML = RULE_CONTENT_MAP[topic] || '<p>규칙 텍스트는 차후 삽입 예정</p>';
+  setRuleTabState(modalRuleTabs, ruleKey);
+}
+
+function openRulesModal(topic, options = {}) {
+  if (!rulesModal || !rulesModalTitle || !rulesModalBody || !rulesModalTabs) {
+    return;
+  }
+
+  const tabKeyByTopic = getRuleKeyByTopic(topic);
+  const forceTabbed = options.forceTabbed === true;
+  const useTabbedMode = forceTabbed || Boolean(tabKeyByTopic);
+
+  rulesModalTabs.classList.toggle('hidden', !useTabbedMode);
+  if (useTabbedMode) {
+    const resolvedKey = options.ruleKey || tabKeyByTopic || activeRuleTabKey || 'P';
+    renderRulesModalRuleTab(resolvedKey);
+  } else {
+    rulesModalTitle.textContent = topic;
+    rulesModalBody.innerHTML = RULE_CONTENT_MAP[topic] || '<p>규칙 텍스트는 차후 삽입 예정</p>';
+  }
+
   rulesModal.classList.remove('hidden');
   rulesModal.setAttribute('aria-hidden', 'false');
 }
@@ -242,6 +352,24 @@ function closeRulesModal() {
 
 function setupRulesModal() {
   document.addEventListener('click', (event) => {
+    const inlineRuleTabTarget = event.target.closest('[data-role="inline-rule-tab"]');
+    if (inlineRuleTabTarget) {
+      const ruleKey = inlineRuleTabTarget.dataset.ruleKey;
+      if (ruleKey) {
+        renderInlineRules(ruleKey);
+      }
+      return;
+    }
+
+    const modalRuleTabTarget = event.target.closest('[data-role="modal-rule-tab"]');
+    if (modalRuleTabTarget) {
+      const ruleKey = modalRuleTabTarget.dataset.ruleKey;
+      if (ruleKey) {
+        renderRulesModalRuleTab(ruleKey);
+      }
+      return;
+    }
+
     const rulesCloseTarget = event.target.closest('[data-role="rules-modal-close"]');
     if (rulesCloseTarget) {
       closeRulesModal();
@@ -288,6 +416,13 @@ function setupRulesModal() {
       openPart2EnterConfirm();
       return;
     }
+
+    const rulesBookOpenTarget = event.target.closest('[data-role="rules-book-open"]');
+    if (rulesBookOpenTarget) {
+      openRulesModal(getRuleTopicByKey(activeRuleTabKey), { forceTabbed: true, ruleKey: activeRuleTabKey });
+      return;
+    }
+
     const topicButton = event.target.closest('[data-rule-topic]');
     if (topicButton) {
       const topic = topicButton.dataset.ruleTopic || topicButton.textContent?.trim() || '占쏙옙칙';
@@ -389,10 +524,10 @@ class TimerWidget {
 
     this.minusBtn.addEventListener('click', () => {
       if (this.remainingSeconds <= 60) {
-        const confirmed = window.confirm('타이머가 종료됩니다.');
-        if (confirmed) {
+        const message = '<strong class="confirm-primary-line">타이머를 종료</strong>하시겠습니까?<br><span class="confirm-warning-line">남은 시간이 즉시 00:00으로 변경됩니다.</span>';
+        openConfirmModal(message, () => {
           this.finish();
-        }
+        });
         return;
       }
 
@@ -556,26 +691,39 @@ function captureRuleRectMap(elements) {
   return map;
 }
 
-function buildHeroPairs(sourceMap, targetElements) {
+function buildHeroPairsToSingleTarget(sourceMap, targetElement) {
+  if (!targetElement) {
+    return [];
+  }
+
+  const toRect = targetElement.getBoundingClientRect();
   const pairs = [];
 
-  targetElements.forEach((targetBtn) => {
-    const key = targetBtn.dataset.ruleKey;
-    const source = sourceMap.get(key);
-    if (!source) {
-      return;
-    }
-
+  sourceMap.forEach((source, key) => {
     pairs.push({
       key,
       label: source.label,
       fromRect: source.rect,
-      toRect: targetBtn.getBoundingClientRect(),
-      targetBtn,
+      toRect,
+      targetBtn: targetElement,
     });
   });
 
   return pairs;
+}
+
+function buildHeroPairsFromRectToTargets(sourceRect, sourceLabel, targetElements) {
+  if (!sourceRect) {
+    return [];
+  }
+
+  return targetElements.map((targetElement, index) => ({
+    key: `${index}`,
+    label: sourceLabel,
+    fromRect: sourceRect,
+    toRect: targetElement.getBoundingClientRect(),
+    targetBtn: targetElement,
+  }));
 }
 
 function playRuleHero(pairs) {
@@ -587,10 +735,16 @@ function playRuleHero(pairs) {
   layer.className = 'rule-hero-layer';
   document.body.appendChild(layer);
 
+  const targetPendingCount = new Map();
+  pairs.forEach((pair) => {
+    targetPendingCount.set(pair.targetBtn, (targetPendingCount.get(pair.targetBtn) || 0) + 1);
+  });
+  targetPendingCount.forEach((_, targetElement) => {
+    targetElement.classList.add('rule-hero-hidden');
+  });
+
   let doneCount = 0;
   pairs.forEach((pair) => {
-    pair.targetBtn.classList.add('rule-hero-hidden');
-
     const chip = document.createElement('div');
     chip.className = 'rule-hero-chip';
     chip.textContent = pair.label;
@@ -614,7 +768,12 @@ function playRuleHero(pairs) {
 
     chip.addEventListener('transitionend', () => {
       chip.remove();
-      pair.targetBtn.classList.remove('rule-hero-hidden');
+      const currentPending = targetPendingCount.get(pair.targetBtn) || 0;
+      const nextPending = Math.max(0, currentPending - 1);
+      targetPendingCount.set(pair.targetBtn, nextPending);
+      if (nextPending === 0) {
+        pair.targetBtn.classList.remove('rule-hero-hidden');
+      }
       doneCount += 1;
       if (doneCount === pairs.length) {
         layer.remove();
@@ -629,15 +788,17 @@ function renderSlide(index) {
   const isHeroUp = previousIndex === 5 && index === 6;
   const isHeroDown = previousIndex === 6 && index === 5;
   let sourceMap = null;
+  let bookHeroSourceRect = null;
+  let bookHeroSourceLabel = '규칙';
 
   if (isHeroUp) {
-    const sourceButtons = Array.from(slides[5].querySelectorAll('[data-rule-key]'));
+    const sourceButtons = Array.from(slides[5].querySelectorAll('[data-role="inline-rule-tab"]'));
     sourceMap = captureRuleRectMap(sourceButtons);
   }
 
-  if (isHeroDown && headerRuleButtons) {
-    const headerButtons = Array.from(headerRuleButtons.querySelectorAll('[data-rule-key]'));
-    sourceMap = captureRuleRectMap(headerButtons);
+  if (isHeroDown && headerRulesBookBtn) {
+    bookHeroSourceRect = headerRulesBookBtn.getBoundingClientRect();
+    bookHeroSourceLabel = (headerRulesBookBtn.getAttribute('aria-label') || '규칙').trim();
   }
 
   slides.forEach((slide, i) => {
@@ -663,8 +824,8 @@ function renderSlide(index) {
     headerPartEndBtn.classList.toggle('hidden', !showPartEndButton);
   }
 
-  if (headerRuleButtons) {
-    headerRuleButtons.style.display = index >= 6 ? 'flex' : 'none';
+  if (headerRulesBookBtn) {
+    headerRulesBookBtn.style.display = index >= 6 ? 'inline-flex' : 'none';
   }
   if (titleText && headerTitle) {
     headerTitle.textContent = titleText;
@@ -672,17 +833,16 @@ function renderSlide(index) {
 
   timerManager.pauseIfSlideChanged(slides[index]);
 
-  if (sourceMap && (isHeroUp || isHeroDown)) {
+  if ((sourceMap && isHeroUp) || (bookHeroSourceRect && isHeroDown)) {
     requestAnimationFrame(() => {
-      let targetButtons = [];
-      if (isHeroUp && headerRuleButtons) {
-        targetButtons = Array.from(headerRuleButtons.querySelectorAll('[data-rule-key]'));
+      let pairs = [];
+      if (isHeroUp && sourceMap && headerRulesBookBtn) {
+        pairs = buildHeroPairsToSingleTarget(sourceMap, headerRulesBookBtn);
       }
-      if (isHeroDown) {
-        targetButtons = Array.from(slides[5].querySelectorAll('[data-rule-key]'));
+      if (isHeroDown && bookHeroSourceRect) {
+        const targetTabs = Array.from(slides[5].querySelectorAll('[data-role="inline-rule-tab"]'));
+        pairs = buildHeroPairsFromRectToTargets(bookHeroSourceRect, bookHeroSourceLabel, targetTabs);
       }
-
-      const pairs = buildHeroPairs(sourceMap, targetButtons);
       playRuleHero(pairs);
     });
   }
@@ -775,22 +935,12 @@ document.addEventListener('visibilitychange', () => {
 
 decorateStoryText();
 setupRulesModal();
+renderInlineRules(activeRuleTabKey);
 closeRulesModal();
 closeNpcModal();
 closeConfirmModal();
 document.body.classList.remove('modal-open');
 renderSlide(0);
-
-
-
-
-
-
-
-
-
-
-
 
 
 
