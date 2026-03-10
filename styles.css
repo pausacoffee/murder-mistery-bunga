@@ -258,7 +258,7 @@
   width: min(1200px, 96vw);
   margin: 4px auto 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .contact-link-btn {
