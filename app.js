@@ -1607,10 +1607,14 @@ class MultiGameApp {
   setView(view) {
     const platformTitle = document.getElementById('platformTitle');
     const platformSubtitle = document.getElementById('platformSubtitle');
+    const catalogTermText = document.getElementById('catalogTermText');
+    const detailTermText = document.getElementById('detailTermText');
 
     this.catalogView.classList.toggle('hidden', view !== 'catalog');
     this.detailView.classList.toggle('hidden', view !== 'detail');
     this.gmView.classList.toggle('hidden', view !== 'gm');
+    catalogTermText?.classList.toggle('hidden', view !== 'catalog');
+    detailTermText?.classList.toggle('hidden', view !== 'detail');
 
     const isGmView = view === 'gm';
     platformTitle?.classList.toggle('hidden', isGmView);
