@@ -1790,12 +1790,7 @@ class MultiGameApp {
           `).join('')}
         </div>
       `;
-      this.contactModalActions.innerHTML = `
-        <div class="contact-modal-actions-left">
-          <button class="contact-secondary-btn" type="button" data-role="contact-close">닫기</button>
-        </div>
-        <div class="contact-modal-actions-right"></div>
-      `;
+      this.contactModalActions.innerHTML = '';
       return;
     }
 
