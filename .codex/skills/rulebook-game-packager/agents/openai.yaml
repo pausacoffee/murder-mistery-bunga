@@ -1,0 +1,4 @@
+version: 1
+display_name: Rulebook Game Packager
+short_description: Build a game package from a scanned murder mystery rulebook.
+default_prompt: Convert the provided rulebook into this repository's catalog and per-game package structure, preserving uncertainty as placeholders instead of guessing.

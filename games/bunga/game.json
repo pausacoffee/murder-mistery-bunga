@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0",
+  "id": "bunga",
+  "name": "분가",
+  "routeName": "hunke",
+  "slidesHtmlPath": "games/bunga/slides.html",
+  "bgmEnabled": false,
+  "bgm": {
+    "defaultTrack": "",
+    "slideTracks": {}
+  },
+  "rules": {
+    "source": "bunga",
+    "tabs": [
+      { "key": "P", "label": "능력과 파워" },
+      { "key": "S", "label": "승점" },
+      { "key": "R", "label": "전체" }
+    ]
+  }
+}

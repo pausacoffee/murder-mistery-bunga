@@ -1,0 +1,52 @@
+---
+name: rulebook-game-packager
+description: Create or update a murder mystery game package from scanned rulebooks or extracted text. Use when converting a game into this repository's catalog/game package structure, including metadata, phase order, timers, transition guards, and review placeholders.
+---
+
+# Rulebook Game Packager
+
+Use this skill when a user provides a murder mystery rulebook scan, OCR text, or a partially structured document and wants a playable package added to this repository.
+
+## Output Contract
+Create or update:
+- `data/catalog.json`
+- `games/<id>/game.json`
+- `games/<id>/slides.html` for migration-safe output, or `games/<id>/slides.json` if the renderer supports it
+- `games/<id>/rules.json` when rule modal content is externalized
+- `games/<id>/assets/` references only when the asset is actually available
+
+## Workflow
+1. Extract metadata: title, player counts, synopsis, aliases for search.
+2. Extract the game flow in order: intro, setup, parts, phases, vote/selection steps, ending.
+3. Extract timing:
+   - shared timer
+   - per-player timer
+   - special guard or transition checks
+4. Map rulebook content into reusable slide types.
+5. Record any uncertainty as placeholders or TODO markers instead of guessing.
+6. Update the catalog entry so the game is searchable immediately.
+
+## Slide Heuristics
+- Story/setup prose: `story`
+- Ordered phase explanation: `order`
+- Timed action: `timer`
+- Character or NPC explanation: `custom` or dedicated slide if the renderer supports it
+- Voting/selection ceremony: `vote` or `selection`
+- Final instruction: `ending`
+
+## Transition Guards
+If the rulebook requires a check before entering the next part, encode it as package data when supported.
+
+Until transitions are fully data-driven, record the required trigger explicitly in package placeholder fields or a short review note so the renderer migration is straightforward.
+
+## Constraints
+- Do not invent missing numbers, names, or conditions.
+- Keep catalog data short and search-oriented.
+- Keep package data execution-oriented.
+- Prefer repository schema consistency over mirroring the PDF layout exactly.
+
+## Review Handoff
+At the end, clearly mark:
+- what was confidently extracted
+- what remains placeholder
+- what needs human verification against the original rulebook

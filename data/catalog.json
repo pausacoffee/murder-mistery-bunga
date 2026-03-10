@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "games": [
+    {
+      "id": "bunga",
+      "routeName": "hunke",
+      "name": "분가",
+      "playerMin": 5,
+      "playerMax": 6,
+      "recommendedPlayers": "6인 추천",
+      "boxImage": "",
+      "synopsis": "무대는 현대. 미국 뉴잉글랜드의 지방 도시. 대부호 그렉 모리스가 지은 저택으로 관계자 6명이 초대되었다. 하지만.. 저택 응접실에서 그렉의 시체가 발견된다. 도대체 범인은 누구인가? 6명이 저택에 모이게 된 이유는?",
+      "copyrightNotice": "©KADOKAWA-GroupSNE. All rights reserved.",
+      "searchText": "분가 bunga hunke 5인 6인 저택 죽음 추리",
+      "gamePath": "games/bunga/game.json"
+    }
+  ]
+}

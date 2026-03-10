@@ -274,6 +274,10 @@ const BUNGA_RULE_CONTENT_MAP = {
   `,
 };
 
+const STATIC_RULE_CONTENT_MAPS = {
+  bunga: BUNGA_RULE_CONTENT_MAP,
+};
+
 class AdSlotManager {
   constructor() {
     this.slots = Array.from(document.querySelectorAll('[data-slot]'));
@@ -798,7 +802,7 @@ class RulesModal {
     this.tabsEl = tabsEl;
     this.ruleTabs = [];
     this.activeRuleTabKey = 'P';
-    this.contentMap = BUNGA_RULE_CONTENT_MAP;
+    this.contentMap = {};
     this.tabConfig = [
       { key: 'P', label: '능력과 파워' },
       { key: 'S', label: '승점' },
@@ -810,7 +814,7 @@ class RulesModal {
     this.tabConfig = Array.isArray(game?.rules?.tabs) && game.rules.tabs.length > 0
       ? game.rules.tabs
       : this.tabConfig;
-    this.contentMap = game?.rules?.source === 'bunga' ? BUNGA_RULE_CONTENT_MAP : BUNGA_RULE_CONTENT_MAP;
+    this.contentMap = game?.rules?.contentMap || STATIC_RULE_CONTENT_MAPS[game?.rules?.source] || {};
     this.renderTabs();
     this.activeRuleTabKey = this.tabConfig[0]?.key || 'P';
   }
@@ -1185,6 +1189,7 @@ class MultiGameApp {
   constructor() {
     this.state = {
       games: [],
+      gamePackages: {},
       selectedGameId: null,
       sort: 'name',
       query: '',
@@ -1299,13 +1304,47 @@ class MultiGameApp {
   }
 
   async loadGames() {
-    const response = await fetch('data/games.json');
+    const response = await fetch('data/catalog.json');
     const data = await response.json();
     this.state.games = Array.isArray(data.games) ? data.games : [];
   }
 
   get selectedGame() {
     return this.state.games.find((game) => game.id === this.state.selectedGameId) || null;
+  }
+
+  get selectedGamePackage() {
+    return this.state.gamePackages[this.state.selectedGameId] || null;
+  }
+
+  async loadGamePackage(gameId) {
+    const catalogGame = this.state.games.find((game) => game.id === gameId);
+    if (!catalogGame?.gamePath) {
+      return null;
+    }
+
+    if (this.state.gamePackages[gameId]) {
+      return this.state.gamePackages[gameId];
+    }
+
+    const response = await fetch(catalogGame.gamePath);
+    const gamePackage = await response.json();
+    const merged = {
+      ...catalogGame,
+      ...gamePackage,
+      rules: {
+        ...(catalogGame.rules || {}),
+        ...(gamePackage.rules || {}),
+      },
+    };
+
+    if (merged.rules?.contentPath) {
+      const rulesResponse = await fetch(merged.rules.contentPath);
+      merged.rules.contentMap = await rulesResponse.json();
+    }
+
+    this.state.gamePackages[gameId] = merged;
+    return merged;
   }
 
   bindGlobalEvents() {
@@ -1404,9 +1443,6 @@ class MultiGameApp {
     }
     if (game.routeName) {
       return game.routeName;
-    }
-    if (game.id === 'bunga') {
-      return 'hunke';
     }
     return game.id;
   }
@@ -1528,7 +1564,16 @@ class MultiGameApp {
 
   getSortedGames() {
     const query = this.state.query;
-    const filtered = this.state.games.filter((game) => game.name.toLowerCase().includes(query));
+    const filtered = this.state.games.filter((game) => {
+      const haystack = [
+        game.name || '',
+        game.searchText || '',
+        `${game.playerMin || ''}인`,
+        `${game.playerMax || ''}인`,
+        `${game.playerMin || ''}-${game.playerMax || ''}`,
+      ].join(' ').toLowerCase();
+      return haystack.includes(query);
+    });
     if (this.state.sort === 'players') {
       return filtered.sort((a, b) => (a.playerMin - b.playerMin) || a.name.localeCompare(b.name, 'ko'));
     }
@@ -1550,9 +1595,15 @@ class MultiGameApp {
       card.dataset.role = 'game-open';
       card.dataset.gameId = game.id;
       card.innerHTML = `
-        <h3>${game.name}</h3>
-        <p>인원: ${game.playerMin}~${game.playerMax}인</p>
-        <button type="button" data-role="game-open" data-game-id="${game.id}">게임 열기</button>
+        <div class="game-card-image-wrap">
+          ${game.boxImage ? `<img class="game-card-image" src="${game.boxImage}" alt="${game.name} 박스 이미지" />` : '<div class="game-card-image-fallback">BOX ART</div>'}
+        </div>
+        <div class="game-card-body">
+          <h3>${game.name}</h3>
+          <p class="game-card-players">인원: ${game.playerMin}~${game.playerMax}인</p>
+          <p class="game-card-synopsis">${game.synopsis || ''}</p>
+          <button type="button" data-role="game-open" data-game-id="${game.id}">게임 열기</button>
+        </div>
       `;
       this.gameListEl.appendChild(card);
     });
@@ -1564,7 +1615,7 @@ class MultiGameApp {
     if (!game) return;
 
     this.detailTitle.textContent = game.name;
-    this.detailPrequel.textContent = game.prequel || '';
+    this.detailPrequel.textContent = game.synopsis || game.prequel || '';
     this.detailPlayers.textContent = `추천 인원: ${game.recommendedPlayers || `${game.playerMin}~${game.playerMax}인`}`;
     this.detailCopyright.textContent = game.copyrightNotice || '';
 
@@ -1581,7 +1632,7 @@ class MultiGameApp {
   }
 
   async enterGame() {
-    const game = this.selectedGame;
+    const game = await this.loadGamePackage(this.state.selectedGameId);
     if (!game) return;
 
     this.rulesModal.configure(game);
