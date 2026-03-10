@@ -944,6 +944,52 @@ button:disabled {
   margin-top: auto;
 }
 
+.timer-player-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 0 -1px;
+  padding: 0 8px;
+  overflow-x: auto;
+}
+
+.timer-player-tab {
+  min-width: 56px;
+  padding: 10px 16px;
+  margin-bottom: -1px;
+  border: 1px solid #cfd7e3;
+  border-bottom-color: #cfd7e3;
+  border-radius: 12px 12px 0 0;
+  background: #eef1f5;
+  color: #111111;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.timer-player-tab:hover {
+  background: #eceff5;
+}
+
+.timer-player-tab.active {
+  background: #fbfdff;
+  border-color: var(--border);
+  border-bottom-color: #fbfdff;
+  color: #111111;
+}
+
+.timer-player-tab.finished {
+  background: #eef1f5;
+  border-color: #d9dee7;
+  border-bottom-color: #d9dee7;
+  color: #8d95a3;
+}
+
+.timer-player-tab:disabled {
+  cursor: default;
+}
+
 .timer-panel {
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -989,6 +1035,12 @@ button:disabled {
 
 .timer-adjust-btn:hover {
   background: #b9c2cf;
+}
+
+.timer-adjust-btn:disabled,
+.timer-toggle-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .timer-toggle-btn {

@@ -21,6 +21,33 @@
   - 이야기 카드 A 공개 확인 -> 파트 2 진입
   - 이야기 카드 B 공개 확인 -> 파트 3 진입
 
+## 타이머 사용 방법
+기본 타이머는 아래처럼 사용합니다.
+
+```html
+<div class="timer-widget" data-timer-widget data-initial-seconds="180">
+```
+
+- `data-initial-seconds`: 기본 시간(초)
+
+플레이어별 타이머는 아래처럼 사용합니다.
+
+```html
+<div
+  class="timer-widget"
+  data-timer-widget
+  data-timer-type="per-player"
+  data-player-count="6"
+  data-initial-seconds="60"
+>
+```
+
+- `data-timer-type="per-player"`: 플레이어별 탭 타이머 활성화
+- `data-player-count`: 생성할 플레이어 탭 수
+- `data-initial-seconds`: 각 플레이어에게 동일하게 적용할 기본 시간(초)
+- 선택된 플레이어 탭은 검은 글자, 종료된 플레이어 탭은 회색 글자로 표시됩니다.
+- 현재 플레이어 시간이 끝나면 해당 탭은 종료 상태가 되고, 다음 남은 플레이어 탭으로 자동 이동합니다.
+
 ## 문서
 - [GM 운영 가이드](docs/GM-PLAYBOOK.md)
 - [규칙 팝업 매핑](docs/RULES-MAPPING.md)

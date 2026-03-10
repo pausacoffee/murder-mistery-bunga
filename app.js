@@ -547,6 +547,249 @@ class TimerWidget {
     }
   }
 }
+
+class PerPlayerTimerWidget {
+  constructor(rootEl, manager, openConfirmModal) {
+    this.rootEl = rootEl;
+    this.manager = manager;
+    this.openConfirmModal = openConfirmModal;
+    this.slideEl = rootEl.closest('.slide');
+    this.displayEl = rootEl.querySelector('[data-role="display"]');
+    this.overlayEl = rootEl.querySelector('[data-role="overlay"]');
+    this.minusBtn = rootEl.querySelector('[data-role="minus"]');
+    this.plusBtn = rootEl.querySelector('[data-role="plus"]');
+    this.toggleBtn = rootEl.querySelector('[data-role="toggle"]');
+    this.initialSeconds = Number.parseInt(rootEl.dataset.initialSeconds || '0', 10);
+    this.playerCount = Math.max(1, Number.parseInt(rootEl.dataset.playerCount || '1', 10));
+    this.playerStates = Array.from({ length: this.playerCount }, (_, idx) => ({
+      label: String(idx + 1),
+      remainingSeconds: this.initialSeconds,
+      ended: false,
+    }));
+    this.activePlayerIndex = 0;
+    this.tabButtons = [];
+    this.endAtMs = null;
+
+    this.buildTabs();
+    this.bindEvents();
+    this.render();
+    this.setRunningState(false);
+  }
+
+  buildTabs() {
+    const tabsEl = document.createElement('div');
+    tabsEl.className = 'timer-player-tabs';
+    tabsEl.setAttribute('role', 'tablist');
+    tabsEl.setAttribute('aria-label', '플레이어별 타이머');
+
+    this.tabButtons = this.playerStates.map((player, idx) => {
+      const btn = document.createElement('button');
+      btn.className = `timer-player-tab${idx === this.activePlayerIndex ? ' active' : ''}`;
+      btn.type = 'button';
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', idx === this.activePlayerIndex ? 'true' : 'false');
+      btn.textContent = player.label;
+      btn.addEventListener('click', () => this.setActivePlayer(idx));
+      tabsEl.appendChild(btn);
+      return btn;
+    });
+
+    this.rootEl.insertBefore(tabsEl, this.rootEl.firstChild);
+  }
+
+  bindEvents() {
+    this.toggleBtn?.addEventListener('click', () => {
+      if (this.endAtMs) {
+        this.pause();
+      } else {
+        this.play();
+      }
+    });
+
+    this.plusBtn?.addEventListener('click', () => this.adjustRemainingSeconds(60));
+    this.minusBtn?.addEventListener('click', () => {
+      const activePlayer = this.getActivePlayer();
+      if (!activePlayer) return;
+
+      if (activePlayer.remainingSeconds <= 60) {
+        const msg = '<strong class="confirm-primary-line">현재 플레이어 타이머를 종료</strong>하시겠습니까?<br><span class="confirm-warning-line">남은 시간이 즉시 00:00으로 변경됩니다.</span>';
+        this.openConfirmModal(msg, () => this.finishActivePlayer());
+        return;
+      }
+
+      this.adjustRemainingSeconds(-60);
+    });
+  }
+
+  getActivePlayer() {
+    return this.playerStates[this.activePlayerIndex] || null;
+  }
+
+  getNextAvailablePlayerIndex() {
+    return this.playerStates.findIndex((player) => !player.ended);
+  }
+
+  setActivePlayer(index) {
+    const nextPlayer = this.playerStates[index];
+    if (!nextPlayer || nextPlayer.ended || index === this.activePlayerIndex) {
+      return;
+    }
+
+    if (this.endAtMs) {
+      this.pause();
+    }
+
+    this.hideOverlay();
+    this.activePlayerIndex = index;
+    this.render();
+  }
+
+  adjustRemainingSeconds(delta) {
+    const activePlayer = this.getActivePlayer();
+    if (!activePlayer || activePlayer.ended) {
+      return;
+    }
+
+    this.hideOverlay();
+    activePlayer.remainingSeconds = Math.max(0, activePlayer.remainingSeconds + delta);
+
+    if (this.endAtMs) {
+      this.endAtMs += delta * 1000;
+      if (this.endAtMs <= Date.now()) {
+        this.finishActivePlayer();
+        return;
+      }
+    }
+
+    if (activePlayer.remainingSeconds === 0) {
+      this.finishActivePlayer();
+      return;
+    }
+
+    this.render();
+  }
+
+  formatTime(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  renderTabs() {
+    this.tabButtons.forEach((button, idx) => {
+      const player = this.playerStates[idx];
+      const isActive = idx === this.activePlayerIndex && !player.ended;
+      button.classList.toggle('active', isActive);
+      button.classList.toggle('finished', player.ended);
+      button.disabled = player.ended;
+      button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      button.setAttribute('aria-disabled', player.ended ? 'true' : 'false');
+    });
+  }
+
+  render() {
+    const activePlayer = this.getActivePlayer();
+    const hasAvailablePlayer = this.getNextAvailablePlayerIndex() >= 0;
+
+    if (this.displayEl) {
+      this.displayEl.textContent = this.formatTime(Math.max(0, activePlayer?.remainingSeconds || 0));
+    }
+
+    if (this.plusBtn) this.plusBtn.disabled = !hasAvailablePlayer;
+    if (this.minusBtn) this.minusBtn.disabled = !hasAvailablePlayer;
+    if (this.toggleBtn) this.toggleBtn.disabled = !hasAvailablePlayer;
+
+    this.renderTabs();
+  }
+
+  setRunningState(isRunning) {
+    if (!this.toggleBtn) {
+      return;
+    }
+
+    const hasAvailablePlayer = this.getNextAvailablePlayerIndex() >= 0;
+    this.toggleBtn.setAttribute('aria-pressed', isRunning ? 'true' : 'false');
+    this.toggleBtn.textContent = hasAvailablePlayer ? (isRunning ? '일시정지' : '시작') : '종료';
+  }
+
+  hideOverlay() {
+    this.overlayEl?.classList.add('hidden');
+  }
+
+  showOverlay() {
+    this.overlayEl?.classList.remove('hidden');
+  }
+
+  play() {
+    const activePlayer = this.getActivePlayer();
+    if (!activePlayer || activePlayer.ended) {
+      return;
+    }
+
+    if (activePlayer.remainingSeconds <= 0) {
+      this.finishActivePlayer();
+      return;
+    }
+
+    this.hideOverlay();
+    this.endAtMs = Date.now() + activePlayer.remainingSeconds * 1000;
+    this.manager.start(this);
+    this.setRunningState(true);
+  }
+
+  pause() {
+    const activePlayer = this.getActivePlayer();
+    if (this.endAtMs && activePlayer) {
+      const diffMs = this.endAtMs - Date.now();
+      activePlayer.remainingSeconds = Math.max(0, Math.ceil(diffMs / 1000));
+    }
+
+    this.endAtMs = null;
+    this.manager.stop(this);
+    this.setRunningState(false);
+    this.render();
+  }
+
+  finishActivePlayer() {
+    const activePlayer = this.getActivePlayer();
+    if (!activePlayer) {
+      return;
+    }
+
+    activePlayer.remainingSeconds = 0;
+    activePlayer.ended = true;
+    this.endAtMs = null;
+    this.manager.stop(this);
+    this.setRunningState(false);
+
+    const nextIndex = this.getNextAvailablePlayerIndex();
+    if (nextIndex >= 0) {
+      this.activePlayerIndex = nextIndex;
+      this.hideOverlay();
+    } else {
+      this.showOverlay();
+    }
+
+    this.render();
+  }
+
+  onTick() {
+    const activePlayer = this.getActivePlayer();
+    if (!this.endAtMs || !activePlayer) {
+      this.pause();
+      return;
+    }
+
+    const diffMs = this.endAtMs - Date.now();
+    activePlayer.remainingSeconds = Math.max(0, Math.ceil(diffMs / 1000));
+    this.render();
+
+    if (activePlayer.remainingSeconds <= 0) {
+      this.finishActivePlayer();
+    }
+  }
+}
+
 class RulesModal {
   constructor(modalEl, titleEl, bodyEl, tabsEl) {
     this.modalEl = modalEl;
@@ -725,7 +968,12 @@ class SlideRenderer {
 
   setupTimers() {
     this.timerWidgets = Array.from(this.slidesContainer.querySelectorAll('[data-timer-widget]'))
-      .map((el) => new TimerWidget(el, this.timerManager, this.openConfirmModal));
+      .map((el) => {
+        if (el.dataset.timerType === 'per-player') {
+          return new PerPlayerTimerWidget(el, this.timerManager, this.openConfirmModal);
+        }
+        return new TimerWidget(el, this.timerManager, this.openConfirmModal);
+      });
   }
 
   setupInlineRules() {
@@ -1348,4 +1596,3 @@ class MultiGameApp {
 
 const app = new MultiGameApp();
 app.init();
-
