@@ -24,8 +24,11 @@ Create or update:
    - per-player timer
    - special guard or transition checks
 4. Map rulebook content into reusable slide types.
-5. Record any uncertainty as placeholders or TODO markers instead of guessing.
-6. Update the catalog entry so the game is searchable immediately.
+5. Separate rule topics into:
+   - whole-game tabs for the book icon
+   - slide-level shortcut topics for the `i` button
+6. Record any uncertainty as placeholders or TODO markers instead of guessing.
+7. Update the catalog entry so the game is searchable immediately.
 
 ## Slide Heuristics
 - Story/setup prose: `story`
@@ -49,6 +52,13 @@ For `slides.html`, prefer:
 - optional `data-next-confirm-note`
 
 Do not add a game-specific JS branch just to block the next slide.
+
+## Rules Mapping
+- Treat the book-shaped button as the whole-game rules modal.
+- Build `game.json > rules.tabs` for topics that are useful across the whole session.
+- Treat the `i` button next to the slide title as a current-step shortcut.
+- For each slide that needs it, set `data-part-info-topic` to the single most relevant rule topic for that step.
+- Prefer specific topics such as `조사 페이즈`, `공유 페이즈`, `설정서와 비공개 정보` over vague umbrella topics.
 
 ## Constraints
 - Do not invent missing numbers, names, or conditions.

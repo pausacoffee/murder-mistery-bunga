@@ -11,6 +11,8 @@
 2. 각 탭의 `key`, `label`, `topic`
 3. 필요 시 `rules.contentPath`의 외부 JSON 본문
 
+책 아이콘은 게임 전체 규칙을 여는 버튼입니다. 특정 슬라이드 전용 규칙 숏컷으로 쓰지 않습니다.
+
 예:
 
 ```json
@@ -33,6 +35,11 @@
 
 즉 슬라이드 작성 시:
 - 현재 페이즈와 정확히 연결할 규칙이 있으면 `data-part-info-topic`을 우선 지정합니다.
+- `i` 버튼은 현재 단계에서만 유효한 규칙 숏컷이므로, 포괄적인 대분류보다 슬라이드와 직접 연결되는 topic을 넣는 것이 좋습니다.
+- 예:
+  - `data-part-info-topic="조사 페이즈"`
+  - `data-part-info-topic="설정서와 비공개 정보"`
+  - `data-part-info-topic="액션 페이즈"`
 
 ## 4. 규칙 본문 수정 위치
 - 외부 규칙 데이터: `games/<id>/rules.json`
