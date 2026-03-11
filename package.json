@@ -2,10 +2,13 @@
   "name": "murder-mistery-bunga",
   "private": true,
   "scripts": {
+    "build": "node -e \"console.log('Static app: no build step required.')\"",
+    "dev:vercel": "vercel dev",
     "test": "vitest run --reporter=verbose",
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "vercel": "^50.31.1",
     "vitest": "^3.2.4"
   }
 }
