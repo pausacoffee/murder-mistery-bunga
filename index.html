@@ -83,36 +83,67 @@
 
     <section class="hidden" id="gmView">
       <div class="app-shell">
-        <div class="slide-frame">
-          <header class="top-bar">
-            <div class="header-title" id="headerTitle">게임 흐름 요약</div>
-            <button class="header-info-btn hidden" id="headerPartInfoBtn" type="button" data-role="part-info-open" aria-label="현재 순서 규칙 안내">i</button>
-            <div class="header-controls">
-              <div class="header-action-list hidden" id="headerActionList"></div>
-              <button class="rules-book-btn" id="headerRulesBookBtn" type="button" data-role="rules-book-open" style="display:none;" aria-label="규칙 열기">
-                <svg class="rules-book-icon" viewBox="0 0 64 48" aria-hidden="true" focusable="false">
-                  <path d="M3.5 34.5L10.5 11.5c7 2 14 0 21.5 5.8 7.5-5.8 14.5-3.8 21.5-5.8l7 23c-10.5-2-19.6-.7-28.5 6-8.9-6.7-18-8-28.5-6Z" />
-                  <path d="M32 17v23" />
-                  <path d="M8 30c9-2 17-.7 24 6" />
-                  <path d="M56 30c-9-2-17-.7-24 6" />
-                </svg>
-                <span class="sr-only">규칙</span>
-              </button>
-              <div id="bgmPanel" class="bgm-panel hidden" aria-label="배경음 제어">
-                <button id="bgmMuteBtn" type="button" class="bgm-btn">음소거</button>
-                <input id="bgmVolumeRange" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="음량" />
+        <div class="gm-stage">
+          <nav class="gm-side-nav" aria-label="GM 바로가기">
+            <button class="gm-side-nav-btn" type="button" data-role="gm-home-open" aria-label="홈">
+              <svg class="gm-side-nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 3.2 4 9.6V20h5.6v-5.1h4.8V20H20V9.6L12 3.2Z" />
+              </svg>
+              <span class="gm-side-nav-tooltip">홈</span>
+            </button>
+            <button class="gm-side-nav-btn" type="button" data-role="gm-detail-open" aria-label="게임 개요">
+              <svg class="gm-side-nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M6 4.5A2.5 2.5 0 0 0 3.5 7v10A2.5 2.5 0 0 0 6 19.5h12a2.5 2.5 0 0 0 2.5-2.5V7A2.5 2.5 0 0 0 18 4.5H6Zm1.8 4h8.4v1.6H7.8V8.5Zm0 3.2h8.4v1.6H7.8v-1.6Zm0 3.2h5.4v1.6H7.8v-1.6Z" />
+              </svg>
+              <span class="gm-side-nav-tooltip">게임 개요</span>
+            </button>
+          </nav>
+          <div class="slide-frame">
+            <header class="top-bar">
+              <button class="gm-mobile-menu-btn" id="gmMobileMenuBtn" type="button" data-role="gm-mobile-menu-toggle" aria-expanded="false" aria-controls="gmMobileMenu" aria-label="GM 메뉴 열기">≡</button>
+              <div class="gm-mobile-menu hidden" id="gmMobileMenu" aria-hidden="true">
+                <button class="gm-mobile-menu-item" type="button" data-role="gm-home-open">홈</button>
+                <button class="gm-mobile-menu-item" type="button" data-role="gm-detail-open">게임 개요</button>
               </div>
-              <div class="page-indicator">
-                <span id="pageNow">1</span> / <span id="pageTotal">1</span>
+              <div class="header-title" id="headerTitle">게임 흐름 요약</div>
+              <button class="header-info-btn hidden" id="headerPartInfoBtn" type="button" data-role="part-info-open" aria-label="현재 순서 규칙 안내">i</button>
+              <div class="header-controls">
+                <div class="header-action-list hidden" id="headerActionList"></div>
+                <button class="rules-book-btn" id="headerRulesBookBtn" type="button" data-role="rules-book-open" style="display:none;" aria-label="규칙 열기">
+                  <svg class="rules-book-icon" viewBox="0 0 64 48" aria-hidden="true" focusable="false">
+                    <path d="M3.5 34.5L10.5 11.5c7 2 14 0 21.5 5.8 7.5-5.8 14.5-3.8 21.5-5.8l7 23c-10.5-2-19.6-.7-28.5 6-8.9-6.7-18-8-28.5-6Z" />
+                    <path d="M32 17v23" />
+                    <path d="M8 30c9-2 17-.7 24 6" />
+                    <path d="M56 30c-9-2-17-.7-24 6" />
+                  </svg>
+                  <span class="sr-only">규칙</span>
+                </button>
+                <div id="bgmPanel" class="bgm-panel hidden" aria-label="배경음 제어">
+                  <button id="bgmMuteBtn" type="button" class="bgm-btn">음소거</button>
+                  <input id="bgmVolumeRange" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="음량" />
+                </div>
+                <div class="page-indicator">
+                  <span id="pageNow">1</span> / <span id="pageTotal">1</span>
+                </div>
+                <div class="nav-buttons">
+                  <button id="prevBtn" type="button" aria-label="이전">
+                    <svg class="nav-arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path d="M14.71 6.71a1 1 0 0 1 0 1.41L10.83 12l3.88 3.88a1 1 0 1 1-1.42 1.41l-4.58-4.58a1 1 0 0 1 0-1.41l4.58-4.58a1 1 0 0 1 1.42 0Z" />
+                    </svg>
+                    <span class="sr-only">이전</span>
+                  </button>
+                  <button id="nextBtn" type="button" aria-label="다음">
+                    <svg class="nav-arrow-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path d="M9.29 17.29a1 1 0 0 1 0-1.41L13.17 12 9.29 8.12a1 1 0 0 1 1.42-1.41l4.58 4.58a1 1 0 0 1 0 1.41l-4.58 4.58a1 1 0 0 1-1.42 0Z" />
+                    </svg>
+                    <span class="sr-only">다음</span>
+                  </button>
+                </div>
               </div>
-              <div class="nav-buttons">
-                <button id="prevBtn" type="button" aria-label="이전">&lt;</button>
-                <button id="nextBtn" type="button" aria-label="다음">&gt;</button>
-              </div>
-            </div>
-          </header>
+            </header>
 
-          <main class="slides-container" id="slidesContainer"></main>
+            <main class="slides-container" id="slidesContainer"></main>
+          </div>
         </div>
       </div>
       <p id="gmCopyright" class="copyright-text"></p>

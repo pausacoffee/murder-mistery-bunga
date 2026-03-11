@@ -1041,6 +1041,8 @@ class MultiGameApp {
     this.contactStepLead = document.getElementById('contactStepLead');
     this.contactModalBody = document.getElementById('contactModalBody');
     this.contactModalActions = document.getElementById('contactModalActions');
+    this.gmMobileMenu = document.getElementById('gmMobileMenu');
+    this.gmMobileMenuBtn = document.getElementById('gmMobileMenuBtn');
 
     this.rulesModal = new RulesModal(
       document.getElementById('rulesModal'),
@@ -1215,6 +1217,22 @@ class MultiGameApp {
         this.openContactModal();
         return;
       }
+      if (event.target.closest('[data-role="gm-mobile-menu-toggle"]')) {
+        this.toggleGmMobileMenu();
+        return;
+      }
+      if (event.target.closest('[data-role="gm-home-open"]')) {
+        this.closeGmMobileMenu();
+        this.navigateToCatalog();
+        return;
+      }
+      if (event.target.closest('[data-role="gm-detail-open"]')) {
+        this.closeGmMobileMenu();
+        if (this.state.selectedGameId) {
+          this.navigateToGameDetail(this.state.selectedGameId);
+        }
+        return;
+      }
       if (event.target.closest('[data-role="contact-close"]')) {
         this.closeContactModal();
         return;
@@ -1282,6 +1300,11 @@ class MultiGameApp {
       if (topicButton) {
         const topic = topicButton.dataset.ruleTopic || topicButton.textContent?.trim() || '규칙';
         this.rulesModal.open(topic);
+        return;
+      }
+
+      if (!event.target.closest('#gmMobileMenu') && !event.target.closest('[data-role="gm-mobile-menu-toggle"]')) {
+        this.closeGmMobileMenu();
       }
     });
 
@@ -1556,6 +1579,19 @@ class MultiGameApp {
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
+  toggleGmMobileMenu() {
+    const willOpen = this.gmMobileMenu?.classList.contains('hidden');
+    this.gmMobileMenu?.classList.toggle('hidden', !willOpen);
+    this.gmMobileMenu?.setAttribute('aria-hidden', willOpen ? 'false' : 'true');
+    this.gmMobileMenuBtn?.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  }
+
+  closeGmMobileMenu() {
+    this.gmMobileMenu?.classList.add('hidden');
+    this.gmMobileMenu?.setAttribute('aria-hidden', 'true');
+    this.gmMobileMenuBtn?.setAttribute('aria-expanded', 'false');
+  }
+
   setView(view) {
     const platformTitle = document.getElementById('platformTitle');
     const platformSubtitle = document.getElementById('platformSubtitle');
@@ -1578,6 +1614,10 @@ class MultiGameApp {
 
     if (view === 'catalog') {
       this.applyGameTheme(null);
+    }
+
+    if (view !== 'gm') {
+      this.closeGmMobileMenu();
     }
   }
 

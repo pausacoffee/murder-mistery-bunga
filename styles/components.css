@@ -159,12 +159,19 @@
   background: #0f1e33;
   color: #ffffff;
   border: 2px solid #0f1e33;
-  font-size: 1.05rem;
+  font-size: 0;
 }
 
 #prevBtn:hover,
 #nextBtn:hover {
   background: #050c17;
+}
+
+.nav-arrow-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: currentColor;
 }
 
 .diagram {
@@ -1922,8 +1929,12 @@
   #nextBtn {
     min-width: 34px;
     min-height: 30px;
-    font-size: 0.9rem;
     padding: 0;
+  }
+
+  .nav-arrow-icon {
+    width: 16px;
+    height: 16px;
   }
 
   .slide {
